@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\CompanyDivision;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class CompanyDivisionType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+        ->add('company')
+        ->add('name')
+        ->add('folders')
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => CompanyDivision::class,
+        ]);
+    }
+}

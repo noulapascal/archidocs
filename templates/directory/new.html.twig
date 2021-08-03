@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Directory{% endblock %}
+
+{% block body %}
+    <h1>Create new Directory</h1>
+
+    {{ include('directory/_form.html.twig') }}
+
+    <a href="{{ path('directory_index') }}">back to list</a>
+{% endblock %}

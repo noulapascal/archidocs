@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=DivisionRepository::class)
  */
 class Division
@@ -35,7 +36,7 @@ class Division
     private $updateAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Region::class, inversedBy="divisions")
+     * @ORM\ManyToOne(targetEntity=Region::class, inversedBy="divisions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $region;
@@ -132,4 +133,45 @@ class Division
 
         return $this;
     }
+
+
+    
+       
+   public function __toString()
+   {
+
+    return $this->getName();
+   }
+
+
+
+   
+   public function setCreateAt(?\DateTimeImmutable $createAt): self
+   {
+       $this->createAt = $createAt;
+
+       return $this;
+   }
+   
+   
+   /**
+    * @ORM\PrePersist
+    */
+
+   public function setCreateAtValue()
+
+   {
+       $this->createAt = new \DateTimeImmutable();
+   }
+   
+   /**
+    * @ORM\PreUpdate
+    */
+
+   public function setUpdateAtValue()
+
+   {
+       $this->updateAt = new \DateTimeImmutable();
+   }
+
 }

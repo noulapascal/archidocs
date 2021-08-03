@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=RegionRepository::class)
  */
 class Region
@@ -132,4 +133,49 @@ class Region
 
         return $this;
     }
+
+    public function __toString()
+   {
+       
+    return $this->getName();
+   }
+
+
+       
+    
+   
+    
+    
+    
+   public function setCreateAt(?\DateTimeImmutable $createAt): self
+   {
+       $this->createAt = $createAt;
+
+       return $this;
+   }
+   
+   
+   /**
+    * @ORM\PrePersist
+    */
+
+   public function setCreateAtValue()
+
+   {
+       $this->createAt = new \DateTimeImmutable();
+   }
+   
+   /**
+    * @ORM\PreUpdate
+    */
+
+   public function setUpdateAtValue()
+
+   {
+       $this->updateAt = new \DateTimeImmutable();
+   }
+
+
+
+
 }

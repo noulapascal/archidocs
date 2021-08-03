@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Subdivision{% endblock %}
+
+{% block body %}
+    <h1>Subdivision</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ subdivision.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ subdivision.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ subdivision.description }}</td>
+            </tr>
+            <tr>
+                <th>UpdateAt</th>
+                <td>{{ subdivision.updateAt ? subdivision.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('subdivision_index') }}">back to list</a>
+
+    <a href="{{ path('subdivision_edit', {'id': subdivision.id}) }}">edit</a>
+
+    {{ include('subdivision/_delete_form.html.twig') }}
+{% endblock %}

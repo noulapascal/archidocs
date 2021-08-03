@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=FileRepository::class)
  */
 class Directory
@@ -52,7 +53,7 @@ class Directory
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $parmissions;
+    private $permissions;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -75,6 +76,11 @@ class Directory
      */
 
      private $fileType;
+
+     /**
+      * @ORM\Column(type="datetime_immutable", nullable=true)
+      */
+     private $createAt;
 
      public function __construct()
      {
@@ -157,14 +163,14 @@ class Directory
         return $this;
     }
 
-    public function getParmissions(): ?string
+    public function getPermissions(): ?string
     {
-        return $this->parmissions;
+        return $this->permissions;
     }
 
-    public function setParmissions(?string $parmissions): self
+    public function setPermissions(?string $permissions): self
     {
-        $this->parmissions = $parmissions;
+        $this->permissions = $permissions;
 
         return $this;
     }
@@ -228,4 +234,36 @@ class Directory
 
         return $this;
     }
+    
+    
+
+    
+    public function setCreateAt(?\DateTimeImmutable $createAt): self
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+    
+    
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreateAtValue()
+
+    {
+        $this->createAt = new \DateTimeImmutable();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+
+    public function setUpdateAtValue()
+
+    {
+        $this->updateAt = new \DateTimeImmutable();
+    }
+
 }

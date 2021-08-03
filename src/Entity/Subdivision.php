@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ *  @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=SubdivisionRepository::class)
  */
 class Subdivision
@@ -44,6 +45,11 @@ class Subdivision
      * @ORM\OneToMany(targetEntity=Locality::class, mappedBy="subdivision")
      */
     private $localities;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $createAt;
 
     public function __construct()
     {
@@ -132,4 +138,43 @@ class Subdivision
 
         return $this;
     }
+
+
+    
+    
+
+    public function getCreateAt(): ?\DateTimeImmutable
+    {
+        return $this->createAt;
+    }
+
+    public function setCreateAt(?\DateTimeImmutable $createAt): self
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+    
+ 
+    
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreateAtValue()
+
+    {
+        $this->createAt = new \DateTimeImmutable();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+
+    public function setUpdateAtValue()
+
+    {
+        $this->updateAt = new \DateTimeImmutable();
+    }
+
 }

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CompanyDivision{% endblock %}
+
+{% block body %}
+    <h1>Edit CompanyDivision</h1>
+
+    {{ include('company_division/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('company_division_index') }}">back to list</a>
+
+    {{ include('company_division/_delete_form.html.twig') }}
+{% endblock %}

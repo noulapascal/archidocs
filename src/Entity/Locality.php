@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=LocalityRepository::class)
  */
 class Locality
@@ -38,6 +39,16 @@ class Locality
      * @ORM\OneToMany(targetEntity=Company::class, mappedBy="locality")
      */
     private $companies;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $createAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $updateAt;
 
     public function __construct()
     {
@@ -114,4 +125,54 @@ class Locality
 
         return $this;
     }
+
+    public function getCreateAt(): ?\DateTimeImmutable
+    {
+        return $this->createAt;
+    }
+
+    public function setCreateAt(?\DateTimeImmutable $createAt): self
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeImmutable
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(\DateTimeImmutable $updateAt): self
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+ 
+    
+    
+    
+    
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreateAtValue()
+
+    {
+        $this->createAt = new \DateTimeImmutable();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+
+    public function setUpdateAtValue()
+
+    {
+        $this->updateAt = new \DateTimeImmutable();
+    }
+
 }

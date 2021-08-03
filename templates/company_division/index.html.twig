@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CompanyDivision index{% endblock %}
+
+{% block body %}
+    <h1>CompanyDivision index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>name</th>
+                <th>actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for company_division in company_divisions %}
+            <tr>
+                <td>{{ company_division.id }}</td>
+                <td>{{ company_division.name }}</td>
+
+
+                <td>
+                    <a href="{{ path('company_division_show', {'id': company_division.id}) }}">show</a>
+                    <a href="{{ path('company_division_edit', {'id': company_division.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('company_division_new') }}">Create new</a>
+{% endblock %}

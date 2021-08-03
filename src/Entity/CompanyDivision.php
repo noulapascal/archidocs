@@ -6,8 +6,9 @@ use App\Repository\CompanyDivisionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Entity\Directory;
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=CompanyDivisionRepository::class)
  */
 class CompanyDivision
@@ -35,6 +36,11 @@ class CompanyDivision
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
     public function __construct()
     {
         $this->folders = new ArrayCollection();
@@ -59,14 +65,14 @@ class CompanyDivision
     }
 
     /**
-     * @return Collection|Folder[]
+     * @return Collection|Directory[]
      */
     public function getFolders(): Collection
     {
         return $this->folders;
     }
 
-    public function addFolder(Folder $folder): self
+    public function addFolder(Directory $folder): self
     {
         if (!$this->folders->contains($folder)) {
             $this->folders[] = $folder;
@@ -76,7 +82,7 @@ class CompanyDivision
         return $this;
     }
 
-    public function removeFolder(Folder $folder): self
+    public function removeFolder(Directory $folder): self
     {
         if ($this->folders->removeElement($folder)) {
             $folder->removeCompanyDivision($this);
@@ -114,4 +120,22 @@ class CompanyDivision
 
         return $this;
     }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+    return $this->getName();
+    }    
+
 }

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=CityRepository::class)
  */
 class City
@@ -35,7 +36,7 @@ class City
     private $updateAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Division::class, inversedBy="cities")
+     * @ORM\ManyToOne(targetEntity=Division::class, inversedBy="cities",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $division;
@@ -49,6 +50,11 @@ class City
      * @ORM\OneToMany(targetEntity=Company::class, mappedBy="city")
      */
     private $companies;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $createAt;
 
     public function __construct()
     {
@@ -168,4 +174,50 @@ class City
 
         return $this;
     }
+
+
+
+    public function __toString()
+    {
+ 
+     return $this->getName();
+    }
+
+    
+    public function getCreateAt(): ?\DateTimeImmutable
+    {
+        return $this->createAt;
+    }
+
+    
+    
+   
+    public function setCreateAt(?\DateTimeImmutable $createAt): self
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+    
+    
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreateAtValue()
+
+    {
+        $this->createAt = new \DateTimeImmutable();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+
+    public function setUpdateAtValue()
+
+    {
+        $this->updateAt = new \DateTimeImmutable();
+    }
+
 }

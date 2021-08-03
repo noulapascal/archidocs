@@ -6,9 +6,13 @@ use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=CompanyRepository::class)
+ * @UniqueEntity(fields={"code"}, message="There is already an account with this username")
  */
 class Company
 {
@@ -54,6 +58,26 @@ class Company
      * @ORM\ManyToOne(targetEntity=Locality::class, inversedBy="companies")
      */
     private $locality;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $createAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $updateAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $acronym;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $code;
 
     public function __construct()
     {
@@ -166,4 +190,80 @@ class Company
 
         return $this;
     }
+
+    public function getCreateAt(): ?\DateTimeImmutable
+    {
+        return $this->createAt;
+    }
+
+    public function setCreateAt(?\DateTimeImmutable $createAt): self
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeImmutable
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(?\DateTimeImmutable $updateAt): self
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+    
+
+    
+    
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreateAtValue()
+
+    {
+        $this->createAt = new \DateTimeImmutable();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+
+    public function setUpdateAtValue()
+
+    {
+        $this->updateAt = new \DateTimeImmutable();
+    }
+
+    public function getAcronym(): ?string
+    {
+        return $this->acronym;
+    }
+
+    public function setAcronym(?string $acronym): self
+    {
+        $this->acronym = $acronym;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+        }
+    public function __toString()
+    {
+        return $this->getName()    ;    
+    }
+
 }
