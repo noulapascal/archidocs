@@ -14,7 +14,6 @@ class CompanyDivisionType extends AbstractType
         $builder
         ->add('company')
         ->add('name')
-        ->add('folders')
         ;
     }
 

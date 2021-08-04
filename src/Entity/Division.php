@@ -165,6 +165,7 @@ class Division
    }
    
    /**
+    * @ORM\PrePersist
     * @ORM\PreUpdate
     */
 

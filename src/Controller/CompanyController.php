@@ -38,7 +38,7 @@ class CompanyController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($company);
             $entityManager->flush();
-
+            mkdir($company->getCode());
             return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -63,12 +63,20 @@ class CompanyController extends AbstractController
      */
     public function edit(Request $request, Company $company): Response
     {
+        $code = $company->getCode();
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            try {
+                rename('./'.$code,'./'.$form['code']->getdata());
+            } catch (\Throwable $th) {
+                //throw $th;
+                echo 'un probleme est suvenu';
+            }
+            rename('./'.$code,'./'.$form['code']->getdata());
             return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -85,6 +93,19 @@ class CompanyController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$company->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            try {
+                //code...
+                rmdir($company->getCode());
+
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+          /*
+            foreach ($company->getCompanyDivisions() as $key => $value) {
+                # code...
+                $company->removeCompanyDivision($value);
+            }
+            */
             $entityManager->remove($company);
             $entityManager->flush();
         }

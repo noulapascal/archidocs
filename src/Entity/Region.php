@@ -166,6 +166,7 @@ class Region
    }
    
    /**
+    * @ORM\PrePersist
     * @ORM\PreUpdate
     */
 

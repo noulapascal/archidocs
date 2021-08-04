@@ -168,6 +168,7 @@ class Subdivision
     }
     
     /**
+     * @ORM\PrePersist
      * @ORM\PreUpdate
      */
 

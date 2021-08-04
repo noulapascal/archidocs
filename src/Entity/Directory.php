@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\FileRepository;
+use App\Repository\DirectoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity(repositoryClass=FileRepository::class)
+ * @ORM\Entity(repositoryClass=DirectoryRepository::class)
  */
 class Directory
 {
@@ -257,6 +257,7 @@ class Directory
     }
     
     /**
+     * @ORM\PrePersist
      * @ORM\PreUpdate
      */
 
@@ -266,4 +267,13 @@ class Directory
         $this->updateAt = new \DateTimeImmutable();
     }
 
+    public function getCreateAt(): ?\DateTimeImmutable
+    {
+        return $this->createAt;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

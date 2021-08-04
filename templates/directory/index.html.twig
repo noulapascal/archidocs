@@ -32,7 +32,9 @@
                 <td>{{ directory.size }}</td>
                 <td>{{ directory.type }}</td>
                 <td>{{ directory.extension }}</td>
-                <td>{{ directory.permissions }}</td>
+                <td>{%  for division in directory.companyDivision %}
+                    {{ division }}
+                {% endfor %}  </td>
                 <td>{{ directory.path }}</td>
                 <td>{{ directory.isFIle ? 'Yes' : 'No' }}</td>
                 <td>{{ directory.fileType }}</td>

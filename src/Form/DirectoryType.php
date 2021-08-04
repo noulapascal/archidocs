@@ -14,13 +14,7 @@ class DirectoryType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('size')
-            ->add('type')
-            ->add('extension')
             ->add('permissions')
-            ->add('path')
-            ->add('isFIle')
-            ->add('fileType')
             ->add('companyDivision')
         ;
     }

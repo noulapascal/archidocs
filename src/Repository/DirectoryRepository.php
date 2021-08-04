@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\File;
+use App\Entity\Directory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method File|null find($id, $lockMode = null, $lockVersion = null)
- * @method File|null findOneBy(array $criteria, array $orderBy = null)
- * @method File[]    findAll()
- * @method File[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Directory|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Directory|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Directory[]    findAll()
+ * @method Directory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class DirectoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, File::class);
+        parent::__construct($registry, Directory::class);
     }
 
     // /**
-    //  * @return File[] Returns an array of File objects
+    //  * @return Directory[] Returns an array of Directory objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class DirectoryRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?File
+    public function findOneBySomeField($value): ?Directory
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.exampleField = :val')
@@ -47,4 +47,20 @@ class DirectoryRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+
+
+    public function findByCompanyDivision($value)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.companyDivision = :val')
+            ->setParameter('val', $value)
+            ->orderBy('d.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
+
 }

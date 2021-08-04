@@ -44,7 +44,7 @@ class Company
     private $phoneNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity=CompanyDivision::class, mappedBy="company")
+     * @ORM\OneToMany(targetEntity=CompanyDivision::class, mappedBy="company", cascade={"remove"}, orphanRemoval=true)
      */
     private $companyDivisions;
 
@@ -78,6 +78,11 @@ class Company
      * @ORM\Column(type="string", length=255)
      */
     private $code;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $sigle;
 
     public function __construct()
     {
@@ -229,6 +234,7 @@ class Company
     }
     
     /**
+     * @ORM\PrePersist
      * @ORM\PreUpdate
      */
 
@@ -264,6 +270,18 @@ class Company
     public function __toString()
     {
         return $this->getName()    ;    
+    }
+
+    public function getSigle(): ?string
+    {
+        return $this->sigle;
+    }
+
+    public function setSigle(?string $sigle): self
+    {
+        $this->sigle = $sigle;
+
+        return $this;
     }
 
 }

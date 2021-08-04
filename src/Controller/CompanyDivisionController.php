@@ -87,6 +87,7 @@ class CompanyDivisionController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($companyDivision);
             $entityManager->flush();
+            
         }
 
         return $this->redirectToRoute('company_division_index', [], Response::HTTP_SEE_OTHER);

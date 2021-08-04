@@ -211,6 +211,7 @@ class City
     }
     
     /**
+     * @ORM\PrePersist
      * @ORM\PreUpdate
      */
 

@@ -141,6 +141,7 @@ class Country
     
     /**
      * @ORM\PreUpdate
+     *  @ORM\PrePersist
      */
 
     public function setUpdateAtValue()

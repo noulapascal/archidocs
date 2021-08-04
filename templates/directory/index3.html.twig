@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Directory index{% endblock %}
+
+{% block body %}
+    <h1>Directory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>UpdateAt</th>
+                <th>Description</th>
+                <th>Size</th>
+                <th>Type</th>
+                <th>Extension</th>
+                <th>permissions</th>
+                <th>Path</th>
+                <th>access</th>
+                <th>FileType</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dirs in directories %}
+        {% for directory in dirs %}
+            <tr>
+            
+                <td> <img src="{{ asset("images/5.jpg") }}" width="100%" height=="100%"  </td>
+                <td>{{ directory.name }}</td>
+                <td>{{ directory.date ? directory.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ directory.perms }}</td>
+                <td>{{ directory.size }}</td>
+                <td>{{ directory.type }}</td>
+                <td>{{ directory.ext }}</td>
+                <td> </td>
+                <td></td>
+                <td>{{ directory.access ? 'Yes' : 'No' }}</td>
+                <td>{{ directory.type }}</td>
+                <td>
+                
+                </td>
+            </tr>
+            
+        {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('directory_new') }}">Create new</a>
+{% endblock %}

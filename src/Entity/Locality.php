@@ -166,6 +166,7 @@ class Locality
     }
     
     /**
+     * @ORM\PrePersist
      * @ORM\PreUpdate
      */
 

@@ -1,0 +1,124 @@
+
+<style>
+    .td{
+      width: 10%;
+      overflow: scroll;
+    }
+    p{
+        text-indent: 35px;
+    }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light  w3-green w3-hover-pink w3-animate-input w3-animate-opacity">
+        <a class="navbar-brand" href="#"><marquee wid   th="128px"><img src="{{ asset('./favicon.png') }}"  alt="ANNUAIRE" width="64px" class="w3-image w3-small w3-round-xxlarge"></marquee></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="true" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link " href="{{ ('main') }}"><span class="fa fa-home"></span>{% trans %}Home {% endtrans %}<span class="sr-only">(current)</span></a>
+      </li>
+        <li class="nav-item ">
+          <a class="nav-link " href="{{ ('establishment_index') }}"><span class="fa fa-hospital-o"></span>{% trans %}Establishment index{% endtrans %}<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+      </li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+      <li class="nav-item">    
+
+          <a class="nav-link " href="{{ ('comment_index') }}"><span class="fa-address-card-o  fa"></span>{% trans %}Comment{% endtrans %}</a>
+      </li>
+      
+                      {% if is_granted('ROLE_ADMIN') %}
+
+      <li class="nav-item">
+          <a class="nav-link" href="{{ ('hotel_index') }}"><span class="fa fa-random"></span>{% trans %}Hotel{% endtrans %}</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="{{ ('restaurant_index') }}"><span class="fa fa-ban    "></span>{% trans %}Restaurant{% endtrans %}</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="{{ ('bar_index') }}"><span class="fa fa-ban    "></span>{% trans %}Bar{% endtrans %}</a>
+      </li>
+
+                      {% endif %}
+                {% endif %}
+      
+      
+    </ul>
+        
+        <ul class="list-unstyled list-inline navbar-nav">
+                      {% if app.user %}
+              <li class="nav-item w3-padding-small ">
+                <a class="nav-link w3-teal  w3-round-large w3-btn " href=""><span class="fa fa-user-circle "> </span> {{ app.user.username }}</a>
+                   </li>
+              <li class="nav-item  w3-padding-small">
+
+                <a class="nav-link w3-pink  w3-round-large   w3-btn " href="{{ ('app_logout') }}"><span class="fa fa-sign-out"></span>{% trans %}Logout{% endtrans %}</a>
+              </li>
+          {% else %}
+              <li class="nav-item ">
+
+              <a class="nav-link w3-teal w3-center w3-round-large" href="{{ ('app_login') }}"><span class="fa fa-user"></span>{% trans %}Login {% endtrans %}</a>
+              </li>
+              <li class="nav-item">
+
+                  <a class="nav-link" href="{{ ('app_register') }}"><span class="fa fa-user-plus"></span>{% trans %}register {% endtrans %}</a>
+              </li>
+          {% endif %}
+        </ul>
+        
+        
+        
+  </div>
+</nav>
+  
+    
+    
+    <!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+<!-- jQuery and JS bundle w/ Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    
+    
+    {#
+    
+    
+    		<div id="header">
+			<div id="navigation">
+				<span id="mobile-navigation">&nbsp;</span>
+				<a href="index.html" class="logo navbar-brand"><img src="{{ asset('image/beb3.png') }}" alt="BIRTH" width="32px"></a>
+				<ul id="menu">
+					<li class="selected">
+						<a href="index.html">Home</a>
+					</li>
+					<li>
+						<a href="about.html">About</a>
+					</li>
+					<li>
+						<a href="running.html">Running</a>
+						<ul>
+							<li>
+								<a href="runningsinglepost.html">Running single post</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="blog.html">Blog</a>
+						<ul>
+							<li>
+								<a href="blogsinglepost.html">blog single post</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="contact.html">Contact</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+    #}
