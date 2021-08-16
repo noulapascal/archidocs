@@ -5,39 +5,59 @@
 {% block body %}
     <h1>Directory index</h1>
 
-    <table class="table">
+
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">  <table id="example"  class="table display" style="width:100%">
         <thead>
             <tr>
-                <th>Id</th>
+                <th></th>
                 <th>Name</th>
                 <th>UpdateAt</th>
                 <th>Description</th>
-                <th>Size</th>
-                <th>Type</th>
-                <th>Extension</th>
-                <th>permissions</th>
+                <th>Division</th>
                 <th>Path</th>
-                <th>IsFIle</th>
-                <th>FileType</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for directory in directories %}
             <tr>
-                <td>{{ directory.id }}</td>
-                <td>{{ directory.name }}</td>
+            <td><img src="{{ asset("images/folders.jpg") }}" width="100%" height=="100%"></td>
+                 <td >
+                 <a href="{{ path('index_list_folder',{'id': directory.id}) }}"> {{ directory.name }}</a></td>
                 <td>{{ directory.updateAt ? directory.updateAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ directory.description }}</td>
-                <td>{{ directory.size }}</td>
-                <td>{{ directory.type }}</td>
-                <td>{{ directory.extension }}</td>
+                <td>
+
+                <div class="dropdown w3-round-large"><button class="w3-btn w3-round-large dropdown-toggle icon icon-arrow-down" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Enfant 
+                <span class="fa fa-angle-down">
+                </span>
+                </button>
+                
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                {% for child in directory.children %}
+
+                
+                <li><a class="dropdown-item" href="{{ path('index_list_folder',{'id': child.id}) }}">{{ child.name }}</a></li>
+    
+                {% endfor %}
+                
+                </ul>
+                </div>
+                
+                </td>
                 <td>{%  for division in directory.companyDivision %}
+
                     {{ division }}
-                {% endfor %}  </td>
+                    {% endfor %}  </td>
                 <td>{{ directory.path }}</td>
-                <td>{{ directory.isFIle ? 'Yes' : 'No' }}</td>
-                <td>{{ directory.fileType }}</td>
                 <td>
                     <a href="{{ path('directory_show', {'id': directory.id}) }}">show</a>
                     <a href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
@@ -45,11 +65,20 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="12">no records found</td>
+                <td colspan="22">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
     <a href="{{ path('directory_new') }}">Create new</a>
+
+</div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">2</div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
+</div>
+
+
+
+  
+
 {% endblock %}

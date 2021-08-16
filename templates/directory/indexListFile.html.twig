@@ -23,8 +23,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for dirs in directories %}
-        {% for directory in dirs %}
+        {% for directory in directories %}
             <tr>
                 <td><img src="{{ asset("images/folder.jpg") }}" width="100%" height=="100%"></td>
                 <td><a href="{{ path('index_list_file',{'id': directory.id}) }}">{{ directory.name }}</a></td>
@@ -33,13 +32,11 @@
                 <td>{{ directory.size }}</td>
                 <td>{{ directory.type }}</td>
                 <td>{{ directory.extension }}</td>
-                <td>
-                {%  for division in directory.companyDivision %}
+                <td>{%  for division in directory.companyDivision %}
 
                 <a href='{{ path('directory_company_division_index',{'id': division.id}) }}' description="fichier sécretariat" >
                     {{ division }}
-                    </a>
-                {% endfor %}  </td>
+                    </a>                {% endfor %}  </td>
                 <td>{{ directory.path }}</td>
                 <td>{{ directory.isFIle ? 'Yes' : 'No' }}</td>
                 <td>{{ directory.fileType }}</td>
@@ -48,8 +45,6 @@
                     <a href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
                 </td>
             </tr>
-            
-        {% endfor %}
         {% else %}
             <tr>
                 <td colspan="12">no records found</td>
@@ -58,5 +53,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('directory_new') }}">Create new</a>
+    <a href="{{ path('directory_child_new',{'id': parent.id}) }}">Create new</a>
 {% endblock %}

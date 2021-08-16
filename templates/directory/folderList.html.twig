@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Directory index{% endblock %}
+
+{% block body %}
+    <h1>Directory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                       <thead>
+            <tr>
+                <th>Name</th>
+                <th>UpdateAt</th>
+                <th>Description</th>
+                <th>Division</th>
+                <th>Path</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+               
+                
+                
+        </thead>
+        <tbody>
+        {% for directory in directories.folders %}
+                   <tr>
+                 <td><a href="{{ path('index_list_folder',{'id': directory.id}) }}">{{ directory.name }}</a></td>
+                <td>{{ directory.updateAt ? directory.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ directory.description }}</td>
+                <td>{%  for division in directory.companyDivision %}
+                    {{ division }}
+                {% endfor %}  </td>
+                <td>{{ directory.path }}</td>
+                <td>
+                    <a href="{{ path('directory_show', {'id': directory.id}) }}">show</a>
+                    <a href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
+                </td>
+            </tr>
+            
+        {% else %}
+            <tr>
+                <td colspan="12">no folders found</td>
+            </tr>
+        {% endfor %}
+
+
+                {% for file in directories.files %}
+                   <tr>
+                 <td class = ><a class='w3-btn w3-text-green' href="{{ asset(parent.path ~'/' ~ file.name)  }}">{{ file.name }}</a></td>
+                <td>{{ file.date ? file.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ file.description }}</td>
+                <td>{%  for division in parent.companyDivision %}
+                    {{ division }}
+                {% endfor %}  </td>
+                <td>{{ parent.path }}/{{ file.name }}</td>
+                <td>
+                    <a class='w3-btn w3-text-green fa fa-eye' href="{{ asset(parent.path ~'/' ~ file.name)  }}">show</a>
+                  <a class='w3-btn w3-text-green fa fa-download' href="{{ asset(parent.path ~'/' ~ file.name)  }}" download="download">Download</a>
+                </td>
+            </tr>
+            
+        {% else %}
+            <tr>
+                <td colspan="12">no file found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('directory_new') }}">Create new</a>
+{% endblock %}

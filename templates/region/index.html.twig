@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Region index</h1>
 
-    <table class="table">
+    <table class="table " width="100%">
         <thead>
             <tr>
                 <th>Id</th>
@@ -36,4 +36,9 @@
     </table>
 
     <a href="{{ path('region_new') }}">Create new</a>
+<script lang="javascript">
+          $(document).ready( function () {
+    $('.table').DataTable();
+} );
+</script>
 {% endblock %}

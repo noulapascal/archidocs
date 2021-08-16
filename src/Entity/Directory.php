@@ -82,9 +82,25 @@ class Directory
       */
      private $createAt;
 
+     /**
+      * @ORM\ManyToOne(targetEntity=Directory::class, inversedBy="children")
+      */
+     private $parent;
+
+     /**
+      * @ORM\OneToMany(targetEntity=Directory::class, mappedBy="parent")
+      */
+     private $children;
+
+     /**
+      * @ORM\Column(type="integer")
+      */
+     private $level;
+
      public function __construct()
      {
          $this->companyDivision = new ArrayCollection();
+         $this->children = new ArrayCollection();
      }
     public function getId(): ?int
     {
@@ -254,6 +270,13 @@ class Directory
 
     {
         $this->createAt = new \DateTimeImmutable();
+
+        if(!empty($this->getParent())){
+            $level = $this->getParent()->getLevel();
+            $this->setLevel($level + 1);
+        }else{
+            $this->setLevel(0);
+        }
     }
     
     /**
@@ -275,5 +298,59 @@ class Directory
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function addChild(self $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children[] = $child;
+            $child->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(self $child): self
+    {
+        if ($this->children->removeElement($child)) {
+            // set the owning side to null (unless already changed)
+            if ($child->getParent() === $this) {
+                $child->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
     }
 }
