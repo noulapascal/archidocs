@@ -53,7 +53,8 @@ class DirectoryRepository extends ServiceEntityRepository
     public function findByCompanyDivision($value)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.companyDivision = :val')
+        ->join('d.companyDivision','c')
+            ->andWhere('c.id = :val')
             ->setParameter('val', $value)
             ->orderBy('d.id', 'ASC')
             ->setMaxResults(10)

@@ -32,7 +32,7 @@ class CompanyDivision
     private $folders;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="divison", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="division", orphanRemoval=true)
      */
     private $users;
 

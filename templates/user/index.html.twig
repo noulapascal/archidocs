@@ -11,9 +11,9 @@
                 <th>Id</th>
                 <th>Username</th>
                 <th>Roles</th>
-                <th>Password</th>
+                <th>Company</th>
                 <th>Name</th>
-                <th>Email</th>
+                <th>division</th>
                 <th>CreateAt</th>
                 <th>actions</th>
             </tr>
@@ -24,9 +24,9 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+                <td>{{ user.division.company }}</td>
                 <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
+                <td>{{ user.division }}</td>
                 <td>{{ user.createAt ? user.createAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">show</a>

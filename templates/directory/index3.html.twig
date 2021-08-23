@@ -52,5 +52,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('directory_new') }}">Create new</a>
+    <a href="{{ path('directory_child_new',{'id': parent.id}) }}">Create new</a>
 {% endblock %}

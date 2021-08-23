@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraint;
+
 /**
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -59,7 +60,7 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity=CompanyDivision::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $divison;
+    private $division;
 
     /**
      * @ORM\Column(type="boolean")
@@ -173,12 +174,12 @@ class User implements UserInterface
 
     public function getDivison(): ?CompanyDivision
     {
-        return $this->divison;
+        return $this->division;
     }
 
-    public function setDivison(?CompanyDivision $divison): self
+    public function setDivison(?CompanyDivision $division): self
     {
-        $this->divison = $divison;
+        $this->division = $division;
 
         return $this;
     }
@@ -207,9 +208,9 @@ class User implements UserInterface
         return $this;
     }
 
-    
-    
-    
+
+
+
     /**
      * @ORM\PrePersist
      */
@@ -219,7 +220,7 @@ class User implements UserInterface
     {
         $this->createAt = new \DateTimeImmutable();
     }
-    
+
     /** 
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -248,4 +249,15 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getDivision(): ?CompanyDivision
+    {
+        return $this->division;
+    }
+
+    public function setDivision(?CompanyDivision $division): self
+    {
+        $this->division = $division;
+
+        return $this;
+    }
 }

@@ -27,8 +27,14 @@ class DirectoryController extends AbstractController
      */
     public function index(DirectoryRepository $directoryRepository): Response
     {
+
+        $currentUser = $this->getUser();
+        if(!empty($currentUser)){
+            $company = $currentUser->getDivision()->getCompany();
+            $directories = $directoryRepository->findByCompanyDivision($currentUser->getDivision());
+        }
         return $this->render('directory/index.html.twig', [
-            'directories' => $directoryRepository->findAll(),
+            'directories' => $directories,
         ]);
     }
 
@@ -253,8 +259,9 @@ public function addScheme(Directory $dir) {
 
         $data=$this->listFile($directory);
 
-        return $this->render('directory/index.html.twig', [
+        return $this->render('directory/index3.html.twig', [
             'directories' => $data,
+            'parent' => $directory
         ]);
     }
 
@@ -270,8 +277,9 @@ public function addScheme(Directory $dir) {
     $data = $directory->getChildren();
     // $data=$this->listFile2($parent.'/'.$name);
 
-     return $this->render('directory/index.html.twig', [
+     return $this->render('directory/indexListFile.html.twig', [
          'directories' => $data,
+         'parent' => $directory
      ]);
  }
 
@@ -296,7 +304,9 @@ public function addScheme(Directory $dir) {
         }
         return [
             "folders" => !empty($tab_dir)?$tab_dir:[],
-            "files" => !empty($tab_file)?$tab_file:[]
+            "files" => !empty($tab_file)?$tab_file:[],
+            'parent' => $directory
+
         ];
     }
 
@@ -316,7 +326,9 @@ public function addScheme(Directory $dir) {
         }
         return [
             "folders" => !empty($tab_dir)?$tab_dir:[],
-            "files" => !empty($tab_file)?$tab_file:[]
+            "files" => !empty($tab_file)?$tab_file:[],
+            'parent' => $directory
+
         ];
     }
 
@@ -335,11 +347,14 @@ public function addScheme(Directory $dir) {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $path = '/'.$parent->getPath().'/'.$directory->getName();
+            $path = './'.$parent->getPath().'/'.$directory->getName();
+          //  $dir = mkdir('./'.$parent->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
+            $dir = mkdir('./'.$parent->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
+
+
 
             try {
                 //code...
-                $dir = mkdir('./'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
 
 
             } catch (\Throwable $th) {
@@ -365,6 +380,7 @@ public function addScheme(Directory $dir) {
         }
 
         return $this->render('directory/new.html.twig', [
+     
             'directory' => $directory,
             'form' => $form->createView(),
         ]);
