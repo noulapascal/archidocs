@@ -31,7 +31,15 @@ class DirectoryController extends AbstractController
         $currentUser = $this->getUser();
         if(!empty($currentUser)){
             $company = $currentUser->getDivision()->getCompany();
-            $directories = $directoryRepository->findByCompanyDivision($currentUser->getDivision());
+            $dirs = $directoryRepository->findByCompanyDivision($currentUser->getDivision());
+            foreach ($dirs as $key => $value) {
+                # code...
+                if (empty( $value->getParent())){
+                    $directories[] = $value;
+                }
+
+            }
+
         }
         return $this->render('directory/index.html.twig', [
             'directories' => $directories,
@@ -43,6 +51,7 @@ class DirectoryController extends AbstractController
      */
     public function indexCompany(DirectoryRepository $directoryRepository, Company $company): Response
     {
+
         /**
          *@param companyDivision $value 
          */
@@ -50,9 +59,10 @@ class DirectoryController extends AbstractController
         $divisions = $company->getCompanyDivisions();
         foreach ($divisions as $key => $value) {
             # code...
-            $dir[] = $value->getFolders();
+           // $dir[$value->getName()] = $value->getFolders();
         }
-        return $this->render('directory/index2.html.twig', [
+        $dir = $directoryRepository->findByCompanyWithNoParent($company);
+        return $this->render('directory/indexCompany.html.twig', [
             'directories' => $dir,
         ]);
     }
@@ -99,7 +109,7 @@ class DirectoryController extends AbstractController
     public function indexCompanyDivision(DirectoryRepository $directoryRepository, CompanyDivision $companyDivision): Response
     {
 
-       $dir = $companyDivision->getFolders(); 
+       $dir = $directoryRepository->findByCompanyDivisionWithNoParent($companyDivision); 
         return $this->render('directory/index.html.twig', [
             'directories' => $dir,
         ]);
@@ -119,6 +129,7 @@ class DirectoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $path = './'.$directory->getName();
+            
 
 
             try {
@@ -138,7 +149,7 @@ class DirectoryController extends AbstractController
 
 
             } catch (\Throwable $th) {
-                rmdir($path);
+                rmdir($directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
                 die('echec de la sauvegarde du repertoire'.' <a class="btn btn-link"  href="'.$this->generateUrl('directory_index').'">revenir</a>');
 
             }
@@ -174,8 +185,11 @@ class DirectoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newpath = './'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getName();
-            $oldpath = $directory->getCompanyDivision()[0]->getCompany()->getCode().$directory->getPath();
-            $path = './'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getName();
+            $oldpath = './'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getPath();
+            //$path = './'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getName();
+            rename($oldpath,$newpath);
+
+
             try {
                 rename($oldpath,$newpath);
 
@@ -184,7 +198,7 @@ class DirectoryController extends AbstractController
                 die('echec de la modification du repertoire'.' <a class="btn btn-link"  href="'.$this->generateUrl('directory_index').'">revenir</a>');
 
             }
-            $directory->setPath($path);
+            $directory->setPath($newpath);
 
             
             $this->getDoctrine()->getManager()->flush();
@@ -205,10 +219,9 @@ class DirectoryController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$directory->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-                            rmdir('./'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getPath());
 
             try {
-                
+                if(is_dir('./'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getPath()))
                 rmdir('./'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getPath());
             } catch (\Throwable $th) {
                 //throw $th;
@@ -226,12 +239,20 @@ class DirectoryController extends AbstractController
     
 public function addScheme(Directory $dir) {
 
-    $entry = $dir->getCompanyDivision()[0]->getCompany()->getCode().'/'.$dir->getName();
+    if(!empty($dir->getPath())){
+        $entry = './'.$dir->getCompanyDivision()[0]->getCompany()->getCode().'/'.$dir->getPath();
+    }else
+    {
+        $entry = './'.$dir->getCompanyDivision()[0]->getCompany()->getCode().'/'.$dir->getName();
+        $dir->setPath('/'.$dir->getName());
+
+
+    }
     //$t = explode(".", $entry);
-    $dir->settype(filetype($entry));
      $dir->setSize(filesize($entry))
-     ->setPath($entry)
-     ->setPermissions(fileperms($entry));
+     ->setPermissions(fileperms($entry))
+     ->setType(filetype($entry));
+
      //->setExtension($t[count($t)-1]);
     return $dir;
   }
@@ -290,7 +311,7 @@ public function addScheme(Directory $dir) {
 
     public function listFile(Directory $directory)
     {
-        $namedir = $directory->getPath();
+        $namedir = './'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getPath();
         $dir = opendir($namedir);
 
         while ($file = readdir($dir)) {
@@ -347,9 +368,33 @@ public function addScheme(Directory $dir) {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $path = './'.$parent->getPath().'/'.$directory->getName();
+            $path = '/'.$parent->getPath().'/'.$directory->getName();
+            
           //  $dir = mkdir('./'.$parent->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
-            $dir = mkdir('./'.$parent->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
+
+            try {
+                //code...
+                $dir = mkdir('./'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
+                $directory->setPath($path);
+                $directory->setParent($parent);
+
+
+            } catch (\Throwable $th) {
+                //throw $th;
+                die('echec de la création du repertoire'.' <a class="btn btn-link"  href="'.$this->generateUrl('directory_index').'">revenir</a>');
+            }
+            $directory = $this->addScheme($directory);
+
+
+            try {
+                //code...
+
+
+            } catch (\Throwable $th) {
+                rmdir($directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
+                die('echec de la sauvegarde du repertoire'.' <a class="btn btn-link"  href="'.$this->generateUrl('directory_index').'">revenir</a>');
+
+            }
 
 
 
@@ -369,7 +414,7 @@ public function addScheme(Directory $dir) {
 
 
             } catch (\Throwable $th) {
-                rmdir('./'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
+                rmdir($path);
                 die('echec de la sauvegarde du repertoire'.' <a class="btn btn-link"  href="'.$this->generateUrl('directory_index').'">revenir</a>');
 
             }

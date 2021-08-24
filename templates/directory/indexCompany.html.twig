@@ -36,7 +36,7 @@
 						<tr>
 							<td class='photo' width="10%"><img src="{{ asset("images/folder2.jpg") }}" width="100%" height=="100%" class='img img-responsive w3-circle'></td>
 							<td>
-								<a href="{{ path('index_list_folder',{'id': directory.id}) }}">
+								<a href="{{ path('index_list_file',{'id': directory.id}) }}">
 									{{ directory.name }}</a>
 							</td>
 							<td>{{ directory.updateAt ? directory.updateAt|date('Y-m-d H:i:s') : '' }}</td>
