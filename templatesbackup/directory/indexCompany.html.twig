@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Directory index
+{% endblock %}
+
+{% block body %}
+
+	<style></style>
+	<h1>Directory index</h1>
+
+
+	<nav>
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+			<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+			<button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+		</div>
+	</nav>
+	<div class="tab-content" id="nav-tabContent">
+		<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+			<table id="example" class="w3-table display" style="width:100%">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Name</th>
+						<th>UpdateAt</th>
+						<th>Description</th>
+						<th>Division</th>
+						<th>name</th>
+						<th>Path</th>
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for directory in directories %}
+						<tr>
+							<td class='photo' width="10%"><img src="{{ asset("images/folder2.jpg") }}" width="100%" height=="100%" class='img img-responsive w3-circle'></td>
+							<td>
+								<a href="{{ path('index_list_file',{'id': directory.id}) }}">
+									{{ directory.name }}</a>
+							</td>
+							<td>{{ directory.updateAt ? directory.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>
+
+								<div class="dropdown w3-round-large">
+									<button class="w3-btn w3-round-large dropdown-toggle icon icon-arrow-down" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+										Enfant
+										<span class="fa fa-angle-down"></span>
+									</button>
+
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+										{% for child in directory.children %}
+
+
+											<li>
+												<a class="dropdown-item" href="{{ path('index_list_folder',{'id': child.id}) }}">{{ child.name }}</a>
+											</li>
+
+										{% endfor %}
+
+									</ul>
+								</div>
+
+							</td>
+							<td>
+								{%  for division in directory.companyDivision %}
+
+									{{ division }}
+								{% endfor %}
+							</td>
+							<td>{{ directory.name }}</td>
+							<td>{{ directory.path }}</td>
+
+							<td>
+								<a class="w3-button w3-hover-blue fa fa-eye w3-padding-large" href="{{ path('directory_show', {'id': directory.id}) }}">show</a>
+								<a class="w3-button w3-hover-teal w3-border-green w3-white w3-padding-large fa fa-pencil w3-margin-large" href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
+							</td>
+						</tr>
+					</td>
+				</tbody>
+			</tr>
+		{% else %}
+			<tr>
+				<td colspan="22">no records found</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<a href="{{ path('directory_new') }}">Create new</a></div><div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+<div class="w3-container">
+	{% for directory in directories %}
+
+	{% include "directory/folder_display.html.twig" %} 
+	{% else %}
+		<div>
+			<td colspan="22">no records found</td>
+		</div>
+
+	{% endfor %}
+</div>
+
+
+<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div></div>{% endblock %}

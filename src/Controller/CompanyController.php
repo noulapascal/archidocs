@@ -41,7 +41,14 @@ class CompanyController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($company);
             $entityManager->flush();
-            mkdir($company->getCode());
+
+            if (!empty($form['file'])) {
+                $files = $form['file']->getData();
+                $this->upload($directory, $files);
+            }
+
+
+            $this->dirMaker($company);
             return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -71,15 +78,21 @@ class CompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
             try {
-                rename('./'.$code,'./'.$form['code']->getdata());
+                $this->dirRenamer($code, $form['code']->getdata());
             } catch (\Throwable $th) {
                 //throw $th;
-                echo 'un probleme est suvenu';
+                die('un probleme est suvenu');
             }
-            rename('./'.$code,'./'.$form['code']->getdata());
+            $logo = $form['logo']->getData();
+            $banner = $form['banner']->getData();
+            $this->upload($company, $logo);
+            $this->upload($company, $banner);
+
+            $this->getDoctrine()->getManager()->flush();
+
+
             return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -94,16 +107,15 @@ class CompanyController extends AbstractController
      */
     public function delete(Request $request, Company $company): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$company->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $company->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             try {
                 //code...
-                rmdir($company->getCode());
-
+                $this->dirRemover($company);
             } catch (\Throwable $th) {
                 //throw $th;
             }
-          /*
+            /*
             foreach ($company->getCompanyDivisions() as $key => $value) {
                 # code...
                 $company->removeCompanyDivision($value);
@@ -114,5 +126,49 @@ class CompanyController extends AbstractController
         }
 
         return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+
+    public function upload(Company $company, $file)
+    {
+        $path = './logo_and_banner/' . $company->getCode();
+        $name = $company->getCode() . '.' . $file->guessExtension();
+        $file->move($path, $name);
+    }
+
+
+
+
+    public function dirMaker(Company $company)
+    {
+        if (!is_dir('./' . $_ENV['DATA_DIR'] . $company->getCode())) {
+            mkdir('./' . $_ENV['DATA_DIR'] . $company->getCode());
+        } else {
+            echo "ce dossier existe déja ";
+        }
+    }
+    
+    
+    
+    
+    
+    public function dirRenamer(string $company, $newDirName)
+    {
+        if (is_dir('./' . $_ENV['DATA_DIR'] . $company)) {
+            rename('./' . $_ENV['DATA_DIR'] . $company, './' . $_ENV['DATA_DIR'] . $newDirName);
+        } else {
+            echo "ce dossier n'existe déja plus";
+            //   mkdir('./' . $_ENV['DATA_DIR'] . $company->getCode());
+        }
+    }
+    public function dirRemover(Company $company)
+    {
+        if (is_dir('./' . $_ENV['DATA_DIR'] . $company->getCode())) {
+            rmdir('./' . $_ENV['DATA_DIR'] . $company->getCode());
+        } else {
+            echo "ce dossier n'existe déja plus";
+        }
     }
 }

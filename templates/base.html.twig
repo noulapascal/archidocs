@@ -1,66 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {%  include  "css.html.twig" %}
-        {% block stylesheets %}
-        {% endblock %}
-    </head>
-    <body>
-    {% include 'nav.html.twig' %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{%  include  "css.html.twig" %}
+		{% block stylesheets %}{% endblock %}
+	</head>
+	<body>
+		{% include 'nav.html.twig' %}
+		{% include 'sidebar.html.twig' %}
+		{% include 'sidebar.html2.twig' %}
+
+		<div class="w3-container w3-main w3-animate-zoom" style="margin-left:340px;margin-right:340px;min-height: 500px"> {% block body %}{% endblock %}
+		</div>
+			{% block footer %}{% endblock %}
 
 
-
-        {% block body %}{% endblock %}
-
-  {% block footer %}
-  <style>
-
-  .b-example-divider {
-  height: 3rem;
-  background-color: rgba(0, 0, 0, .1);
-  border: solid rgba(0, 0, 0, .15);
-  border-width: 1px 0;
-  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-}
-
-.bi {
-  vertical-align: -.125em;
-  fill: currentColor;
-}
+			{%  include  "js.html.twig" %}
 
 
-
-  </style>
-  <div class="container">
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top text-center centered  ">
-    <div class="col-md-4 d-flex align-items-center">
-      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-      </a>
-      <span class="text-muted"</span>
-      <span class="text-muted ">&copy; 2021  Habitech Solution and Services In god we trust</span>
-    </div>
-
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
-      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
-      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
-    </ul>
-  </footer>
-</div>
-
-
-  {% endblock %}
-
-
-                {%  include  "js.html.twig" %}
-
-
-
-        {% block javascripts %}{% endblock %}
-
-
-    </body>
-</html>
+			{% block javascripts %}{% endblock %}
+		</body>
+	</html>

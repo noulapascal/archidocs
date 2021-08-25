@@ -1,0 +1,230 @@
+
+
+<nav class="w3-sidebar w3-round w3-bar-block w3-collapse w3-leftbar w3-rightbar w3-border-teal w3-animate-left w3-card w3-hover-border-dark-grey w3-hover-white w3-teal " style="z-index:3;width:250px;" id="mySidebar">
+	<a class="w3-bar-item w3-button w3-border-bottom  w3-large w3-center w3-hover-teal" href="{{ path('home') }}"><img class="w3-round w3-image" src="{{ asset('./images/archidoc.png') }}" style="width:100%;color: teal;text-align: center;" alt="BIRTH"></a>
+	<a class="w3-bar-item w3-button w3-hide w3-dark-grey w3-transparent-large w3-hover-teal w3-large" href="javascript:void(0)" onclick="w3_close()">{% trans %}Close
+		{% endtrans %}<i class="fa fa-remove"></i>
+	</a>
+
+
+	<a class="w3-bar-item w3-button w3-hover-teal" href="{{ path('home') }}">
+		<span class='fa fa-home fa-2x'></span>
+		{% trans %}
+		Home{% endtrans %}</a>
+
+
+	<div>
+		<a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('lang')" href="javascript:void(0)">
+			<span class='fa fa-language '></span>
+			{% trans %}Language{% endtrans %}
+			<i class="fa fa-caret-down"></i>
+		</a>
+		<div
+			id="lang" class="w3-hide w3-dark-grey w3-transparent ">{#% if app.request.attributes.get('id')  %}
+																				<a class="dropdown-item w3-bar-item" href="{{ ( app.request.attributes.get('_route') ,{_locale:'en',id:app.request.attributes.get('id')}) }}"><img class="w3-round" src="{{ asset('image/us.png') }}" width="32px" alt="en">{% trans %}English{% endtrans %}</a>
+																				<a class="dropdown-item w3-bar-item" href="{{ ( app.request.attributes.get('_route') ,{_locale:'fr',id:app.request.attributes.get('id')}) }}"><img class="w3-round" src="{{ asset('image/fr.webp') }}" width="32px" alt="fr">{% trans %}French{% endtrans %}</a>
+																			{% else %}
+																				<a class="dropdown-item w3-bar-item" href="{{ ( app.request.attributes.get('_route') ,{_locale:'en'}) }}"><img class="w3-round" src="{{ asset('image/us.png') }}" width="32px" alt="en">{% trans %}English{% endtrans %}</a>
+																				<a class="dropdown-item w3-bar-item" href="{{ ( app.request.attributes.get('_route') ,{_locale:'fr'}) }}"><img class="w3-round" src="{{ asset('image/fr.webp') }}" width="32px" alt="fr">{% trans %}French{% endtrans %}</a>
+																			{% endif %#}
+		</div>
+	</div>
+
+	<!--
+					  <a class="w3-bar-item w3-button w3-teal" href="#">Home</a>
+					  <a class="w3-bar-item w3-button" href="#">Link 1</a>
+					  <a class="w3-bar-item w3-button" href="#">Link 2</a>
+					  <a class="w3-bar-item w3-button" href="#">Link 3</a>
+					  <a class="w3-bar-item w3-button" href="#">Link 4</a>
+					  <a class="w3-bar-item w3-button" href="#">Link 5</a>
+					  -->
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+		<div>
+			<!--a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo')" href="javascript:void(0)">{% trans %}Profile{% endtrans %} <i class="fa fa-caret-down"></i></a>
+															    <div id="demo" class="w3-hide w3-dark-grey w3-transparent">
+															      <a class="w3-bar-item w3-button" href="#">Link</a>
+															      <a class="w3-bar-item w3-button" href="#">Link</a>
+															      <a class="w3-bar-item w3-button" href="#">Link</a>
+															    </div-->
+			<div>
+				<a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_birth')" href="javascript:void(0)">
+					<span class="fa-child  fa"></span>
+					{% trans %}Directories{% endtrans %}
+					<i class="fa fa-caret-down"></i>
+				</a>
+				<div id="demo_birth" class="w3-hide w3-dark-grey w3-transparent ">
+					{% if  (directories is defined)   %}
+						{% for directory in directories %}
+							<a class="w3-bar-item w3-button w3-hover-teal" href="{{ path('index_list_folder',{'id': directory.id}) }}">
+								{{ directory.name }}
+							</a>
+							{% else %}
+
+						{% endfor %}
+
+					{% endif %}
+
+
+				</div>
+			</div>
+
+		</div>
+	{% endif %}
+
+
+
+
+
+
+
+
+	{% if is_granted('ROLE_HABITECH') or is_granted('ROLE_CEC') %}
+		<br>
+
+		<div>
+			<a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_hospital')" href="javascript:void(0)">
+				<span class="fa-company-o  fa"></span>
+				{% trans %}Company{% endtrans %}<i class="fa fa-caret-down"></i>
+			</a>
+			<div id="demo_hospital" class="w3-hide w3-dark-grey w3-transparent">
+				<a class="w3-bar-item w3-button" href="{{ path('company_new') }}">{% trans %}New Company{% endtrans %}</a>
+				<a class="w3-bar-item w3-button" href="{{ path('company_index') }}">{% trans %}All Companies{% endtrans %}</a>
+
+			</div>
+		</div>
+
+
+		<div>
+			<a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_subdivision')" href="javascript:void(0)">
+				<span class="fa-user-o fa"></span>
+				{% trans %}User{% endtrans %}<i class="fa fa-caret-down"></i>
+			</a>
+			<div id="demo_subdivision" class="w3-hide w3-dark-grey w3-transparent">
+				<a class="w3-bar-item w3-button" href="{{ path('user_new') }}">{% trans %}new user{% endtrans %}</a>
+				<a class="w3-bar-item w3-button w3-hover-teal" href="{{ path('user_index') }}">{% trans %}All users{% endtrans %}</a>
+
+			</div>
+		</div>
+
+		<br>
+
+
+		<div class="">
+
+			<a class="w3-bar-item w3-button w3-hover-teal" href="{{ path('app_register') }}">
+				<span class="fa fa-user-plus"></span>
+				{% trans %}Register
+				{% endtrans %}</a>
+		</div>
+
+
+	{% endif %}
+
+
+	<div class="w3-row w3-padding-large w3-panel w3-hover-dark-grey w3-round-large">
+		<marquee behavior="">
+			<h4 class="w3-center">{% trans %}Social solutions, we have them{% endtrans %}</h4>
+		</marquee>
+
+		<marquee class="w3-righ-bar" direction="right">
+			<a href="https://habitechsolution.com">
+				<img src="{{ asset('./solutions/habitech.png') }}" class="w3-image w3-round-large w3-small" style="height: 125px"></a>
+			<a href="https://birth.habitechsolution.com"><img src="{{ asset('./solutions/favicon.png') }}" class="w3-image w3-round-large w3-small" alt="..." style="height: 125px"></a>
+			<a href="https://rapmis.habitechsolution.com">
+				<img src="{{ asset('./solutions/rap.png') }}" class="w3-image w3-round-large w3-small" alt="..." style="height: 125px"></a>
+			<a href="http://facebook/kideats">
+				<img src="{{ asset('./solutions/kideat.jpg') }}" class="w3-image w3-round-large w3-small" alt="..." style="height: 125px"></a>
+			<a href="http://easykeep.habitechsolution.com"><img src="{{ asset('./solutions/easykeep.jpg') }}" class="w3-image w3-circle w3-small" alt="..." style="height: 125px"></a>
+			<a href="http://santalert.habitechsolution.com">
+				<img src="{{ asset('./solutions/santalert.jpg') }}" class="w3-image w3-circle w3-small" alt="..." style="height: 125px"></a>
+			<a href="http://habitechsolution.com">
+				<img src="{{ asset('./solutions/archidoc.png') }}" class="w3-image w3-circle w3-small" alt="..." style="height: 125px"></a>
+
+
+		</marquee>
+	</div>
+
+
+</nav>
+
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
+
+
+<div id="myTop" class="w3-container w3-hide-large  w3-theme w3-large w3-animate-fading ">
+	<p>
+		<i class="fa fa-eye w3-button w3-teal   w3-large pull-right" onclick="w3_open()"></i>
+	</p>
+</div>
+
+
+<div id="myTop" class="w3-container w3-theme w3-large  w3-animate-zoom w3-white  ">
+	<marquee class="w3-container w3-theme w3-large w3-animate-input ">
+		Birth,
+		{% trans %}
+		Integrated digital solution of a proactive nature for the almost
+										            instantaneous establishment of birth certificates with the aim of tealucing the problems of statelessness,
+										            and other all-out corollaries due to the non-possession of a birth certificate.{% endtrans %}
+	</marquee>
+</div>
+
+
+<!--script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+</script-->
+
+
+<script>
+	// Open and close the sidebar on medium and small screens
+function w3_open() {
+document.getElementById("mySidebar").style.display = "block";
+document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+document.getElementById("mySidebar").style.display = "none";
+document.getElementById("myOverlay").style.display = "none";
+}
+
+// Change style of top container on scroll
+window.onscroll = function () {
+myFunction()
+};
+function myFunction() {
+if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+document.getElementById("myTop").classList.add("w3-card-4", "w3-animate-opacity");
+document.getElementById("myIntro").classList.add("w3-show-inline-block");
+} else {
+document.getElementById("myIntro").classList.remove("w3-show-inline-block");
+document.getElementById("myTop").classList.remove("w3-card-4", "w3-animate-opacity");
+}
+}
+
+// Accordions
+function myAccordion(id) {
+var x = document.getElementById(id);
+if (x.className.indexOf("w3-show") == -1) {
+x.className += " w3-show";
+x.previousElementSibling.className += " w3-theme";
+} else {
+x.className = x.className.replace("w3-show", "");
+x.previousElementSibling.className = x.previousElementSibling.className.replace(" w3-theme", "");
+}
+}
+</script>

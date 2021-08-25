@@ -30,17 +30,13 @@ class DirectoryController extends AbstractController
 
         $currentUser = $this->getUser();
         if(!empty($currentUser)){
+
+
             $company = $currentUser->getDivision()->getCompany();
-            $dirs = $directoryRepository->findByCompanyDivision($currentUser->getDivision());
-            foreach ($dirs as $key => $value) {
-                # code...
-                if (empty( $value->getParent())){
-                    $directories[] = $value;
-                }
+            $directories = $directoryRepository->findByCompanyDivisionWithNoParent($currentUser->getDivision());
 
             }
 
-        }
         return $this->render('directory/index.html.twig', [
             'directories' => $directories,
         ]);
@@ -70,7 +66,7 @@ class DirectoryController extends AbstractController
 
 
     /**
-     * @Route("/file_upload/{id}", name="RouteName", methods={"GET","POST"})
+     * @Route("/file_upload/{id}", name="file_upload", methods={"GET","POST"})
      */
     public function uploadFile(Request $request,Directory $directory): Response
     {
@@ -96,7 +92,7 @@ class DirectoryController extends AbstractController
 
     public function upload(Directory $directory, array $files){
         foreach ($files as $key => $file) {
-            $path = $directory->getPath().'/';
+            $path = './'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getPath().'/';
             $name = $file->getClientOriginalName();
             $file->move($path,$name);
 
@@ -134,7 +130,7 @@ class DirectoryController extends AbstractController
 
             try {
                 //code...
-                $dir = mkdir('./'.$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$path);
+                $this->dirMaker($directory);
 
 
             } catch (\Throwable $th) {
@@ -429,6 +425,56 @@ public function addScheme(Directory $dir) {
             'directory' => $directory,
             'form' => $form->createView(),
         ]);
+    }
+    
+    public function dirMaker(Directory $directory)
+    {
+        $name = $directory->getName();
+        $path = $directory->getPath();
+        $parent = $directory->getParent();
+        $companyCode =  $directory->getCompanyDivision()[0]->getCompany()->getCode();
+        if(!empty($parent)){
+            $dirName = './' . $_ENV['DATA_DIR'].$companyCode.'/'.$parent->getPath().'/'.$directory->getName();
+         } else {
+             $dirName = './' . $_ENV['DATA_DIR'].$companyCode.'/'.$directory->getName();
+         }
+              if (!is_dir($dirName)) {
+                mkdir('./' . $_ENV['DATA_DIR'] . $directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getParent()->getPath().'/');
+            } else {
+                echo "ce dossier existe déja";
+            }
+        }
+
+    
+    public function dirRenamer(Directory $directory)
+    {
+
+
+        $name = $directory->getName();
+        $path = $directory->getPath();
+        $parent = $directory->getParent();
+        $companyCode =  $directory->getCompanyDivision()[0]->getCompany()->getCode();
+        $dirName = './' . $_ENV['DATA_DIR'].$companyCode.'/'.$directory->getPath();
+
+        if (!is_dir($dirName)) {
+
+            rename('./' . $_ENV['DATA_DIR'] . $company->getCode(), './' . $_ENV['DATA_DIR'] . $newDirName);
+        } else {
+            echo "ce dossier n'existe déja plus";
+            mkdir('./' . $_ENV['DATA_DIR'] . $company->getCode());
+        }
+    }
+    public function dirRemover(Directory $directory)
+    {
+        if (is_dir('./' . $_ENV['DATA_DIR'].'./'
+        .$directory->getCompanyDivision()[0]->getCompany()->getCode().'/'.$directory->getPath())) {
+            rmdir('./' . $_ENV['DATA_DIR'].'./'
+            .$directory->getCompanyDivision()[0]->getCompany()->getCode()
+            .'/'.$directory->getPath());
+
+        } else {
+            echo "ce dossier n'existe déja plus";
+        }
     }
 
 }

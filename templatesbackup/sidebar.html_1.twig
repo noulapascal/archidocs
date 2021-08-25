@@ -1,0 +1,187 @@
+<!--nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index: 3; width: 300px; font-weight: bold; display: block;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>Company<br>Name</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> 
+    <a href="#showcase" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Showcase</a> 
+    <a href="#services" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Services</a> 
+    <a href="#designers" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Designers</a> 
+    <a href="#packages" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Packages</a> 
+    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Contact</a>
+  </div>
+</nav-->
+
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card w3-hover-border-red w3-hover-white w3-teal " style="z-index:3;width:250px;" id="mySidebar">
+  <a class="w3-bar-item w3-button w3-border-bottom  w3-large w3-center w3-hover-red" href="#"><img src="{{ asset('./image/beb.webp') }}" style="width:100%;color: red;text-align: center;"alt="BIRTH"></a>
+  <a class="w3-bar-item w3-button w3-hide-large w3-hover-red w3-large" href="javascript:void(0)" onclick="w3_close()">{% trans %}Close {% endtrans %}<i class="fa fa-remove"></i></a>
+
+  
+  
+    <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('home') }}"><span class='fa fa-home fa-2x'> </span>{% trans %} Home{% endtrans %}</a>
+
+  
+  
+  <div>
+    <a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('lang')" href="javascript:void(0)"><span class='fa fa-language '> </span>   {% trans %}Language{% endtrans %} <i class="fa fa-caret-down"></i></a>
+    <div id="lang" class="w3-hide">
+        {% if app.request.attributes.get('id')  %}
+                  <a class="dropdown-item w3-bar-item" href="{{ path( app.request.attributes.get('_route') ,{_locale:'en',id:app.request.attributes.get('id')}) }}"><img class="w3-round" src="{{ asset('image/us.png') }}" width="32px" alt="en">{% trans %}English{% endtrans %}</a>
+                  <a class="dropdown-item w3-bar-item" href="{{ path( app.request.attributes.get('_route') ,{_locale:'fr',id:app.request.attributes.get('id')}) }}"><img class="w3-round" src="{{ asset('image/fr.webp') }}" width="32px" alt="fr">{% trans %}French{% endtrans %}</a>
+                  {% else %}
+                  <a class="dropdown-item w3-bar-item" href="{{ path( app.request.attributes.get('_route') ,{_locale:'en'}) }}"><img class="w3-round" src="{{ asset('image/us.png') }}" width="32px" alt="en">{% trans %}English{% endtrans %}</a>
+                  <a class="dropdown-item w3-bar-item" href="{{ path( app.request.attributes.get('_route') ,{_locale:'fr'}) }}"><img class="w3-round" src="{{ asset('image/fr.webp') }}" width="32px" alt="fr">{% trans %}French{% endtrans %}</a>
+
+                  {% endif %}
+    </div>
+  </div>
+  
+  <!--
+  <a class="w3-bar-item w3-button w3-red" href="#">Home</a>
+  <a class="w3-bar-item w3-button" href="#">Link 1</a>
+  <a class="w3-bar-item w3-button" href="#">Link 2</a>
+  <a class="w3-bar-item w3-button" href="#">Link 3</a>
+  <a class="w3-bar-item w3-button" href="#">Link 4</a>
+  <a class="w3-bar-item w3-button" href="#">Link 5</a>
+  -->
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+  <div>
+    <a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo')" href="javascript:void(0)">{% trans %}Profile{% endtrans %} <i class="fa fa-caret-down"></i></a>
+    <div id="demo" class="w3-hide">
+      <a class="w3-bar-item w3-button" href="#">Link</a>
+      <a class="w3-bar-item w3-button" href="#">Link</a>
+      <a class="w3-bar-item w3-button" href="#">Link</a>
+    </div>
+  </div>
+    
+      <div>
+    <a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_birth')" href="javascript:void(0)"><span class="fa-address-card-o  fa"></span> {% trans %}Birth{% endtrans %} <i class="fa fa-caret-down"></i></a>
+    <div id="demo_birth" class="w3-hide">
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('child_new') }}">{% trans %}Record a birth{% endtrans %}</a>
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('child_index') }}">{% trans %}All Birth Certificate{% endtrans %}</a>
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('child_test') }}">{% trans %}Complete Birth certificate {% endtrans %}</a>
+         </div>
+  </div>
+  
+  
+  <div>
+      <a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_marriage')" href="javascript:void(0)"><span class="fa-random  fa"></span> {% trans %}Marriage{% endtrans %}<i class="fa fa-caret-down"></i></a>
+    <div id="demo_marriage" class="w3-hide">
+        <a class="w3-bar-item w3-button" href="{{ path('marriage_certificate_new') }}">{% trans %}Record a Wedding{% endtrans %}</a>
+   <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('marriage_certificate_index') }}">{% trans %}All marriage Certificate{% endtrans %}</a>
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('marriage_test') }}">{% trans %}Complete Marriage certificate {% endtrans %}</a>
+       
+    </div>
+  </div>
+  
+  <div>
+    <a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_death')" href="javascript:void(0)"><span class="fa-ban fa"></span> {% trans %}Death{% endtrans %} <i class="fa fa-caret-down"></i></a>
+    <div id="demo_death" class="w3-hide">
+        <a class="w3-bar-item w3-button" href="{{ path('death_certificate_new') }}">{% trans %}Record a Wedding{% endtrans %}</a>
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('death_certificate_index') }}">{% trans %}All Death Certificate{% endtrans %}</a>
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('death_test') }}">{% trans %}Complete death certificate {% endtrans %}</a>
+    </div>
+  </div>
+{% else %}
+    
+      <div>
+    <a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_birth')" href="javascript:void(0)"><span class="fa-address-card-o  fa"></span> {% trans %}Birth{% endtrans %} <i class="fa fa-caret-down"></i></a>
+    <div id="demo_birth" class="w3-hide">
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('child_new') }}">{% trans %}Record a birth{% endtrans %}</a>
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('child_test') }}">{% trans %}Complete Birth certificate {% endtrans %}</a>
+         </div>
+  </div>
+  
+  
+  <div>
+      <a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_marriage')" href="javascript:void(0)"><span class="fa-random  fa"></span> {% trans %}Marriage{% endtrans %}<i class="fa fa-caret-down"></i></a>
+    <div id="demo_marriage" class="w3-hide">
+        <a class="w3-bar-item w3-button" href="{{ path('marriage_certificate_new') }}">{% trans %}Record a Wedding{% endtrans %}</a>
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('marriage_test') }}">{% trans %}Complete Marriage certificate {% endtrans %}</a>
+       
+    </div>
+  </div>
+  
+  <div>
+    <a class="w3-bar-item w3-button w3-hover-teal" onclick="myAccordion('demo_death')" href="javascript:void(0)"><span class="fa-ban fa"></span> {% trans %}Death{% endtrans %} <i class="fa fa-caret-down"></i></a>
+    <div id="demo_death" class="w3-hide">
+        <a class="w3-bar-item w3-button" href="{{ path('death_certificate_new') }}">{% trans %}Record a death{% endtrans %}</a>
+        <a class="w3-bar-item w3-button w3-hover-red" href="{{ path('death_test') }}">{% trans %}Complete death certificate {% endtrans %}</a>
+    </div>
+  </div>
+
+{% endif %}
+  
+</nav>
+  
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
+
+
+<div id="myTop" class="w3-container  w3-theme w3-large w3-animate-fading ">
+  <p><i class="fa fa-eye w3-button w3-red   w3-large pull-right" onclick="w3_open()"></i>
+
+</div>
+
+
+<!--script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+</script-->
+
+
+
+
+<script>
+// Open and close the sidebar on medium and small screens
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+// Change style of top container on scroll
+window.onscroll = function() {myFunction()};
+function myFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById("myTop").classList.add("w3-card-4", "w3-animate-opacity");
+    document.getElementById("myIntro").classList.add("w3-show-inline-block");
+  } else {
+    document.getElementById("myIntro").classList.remove("w3-show-inline-block");
+    document.getElementById("myTop").classList.remove("w3-card-4", "w3-animate-opacity");
+  }
+}
+
+// Accordions
+function myAccordion(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-theme";
+  } else { 
+    x.className = x.className.replace("w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-theme", "");
+  }
+}
+</script>

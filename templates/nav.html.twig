@@ -1,88 +1,111 @@
-
 <style>
-    .td{
-   //   width: 10%;
- //     overflow: scroll;
-    }
-    p{
-     //   text-indent: 35px;
-    }
+	.td {
+		;
+		// width: 10%;
+		//     overflow: scroll;
+	}
+	p {
+		;
+		// text-indent: 35px;
+	}
 </style>
-<nav class="navbar navbar-expand-lg navbar-light  w3-green w3-hover-pink w3-animate-input w3-animate-opacity">
-  <a class="navbar-brand" href="#">
-    <marquee wid   th="128px"><img src="{{ asset('./favicon.png') }}"  alt="ANNUAIRE" width="64px" class="w3-image w3-small w3-round-xxlarge">
-    </marquee>
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="true" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarColor03">
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link " href="{{ ('main') }}"><span class="fa fa-home"></span>{% trans %}Home {% endtrans %}<span class="sr-only">(current)</span></a>
-      </li>
-        <li class="nav-item ">
-          <a class="nav-link " href="{{ ('establishment_index') }}"><span class="fa fa-hospital-o"></span>{% trans %}Establishment index{% endtrans %}<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-      </li>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<nav class="navbar navbar-expand-lg navbar-light  w3-teal  w3-hover-light-grey w3-hover-text-white w3-animate-input w3-animate-opacity">
+	<a class="navbar-brand" href="#">
+		<marquee wid th="128px"><img src="{{ asset('./images/archidoc.png') }}" alt="archidoc.png" width="64px" class="w3-image w3-small w3-round-xxlarge">
+		</marquee>
+	</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="true" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarColor03">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+				<a class="nav-link " href="{{ path('test') }}">
+					<span class="fa fa-home"></span>
+					{% trans %}Home
+					{% endtrans %}<span class="sr-only">(current)</span>
+				</a>
+			</li>
+			<li class="nav-item ">
+				<a class="nav-link " href="{{ path('directory_index') }}">
+					<span class="fa fa-hospital-o"></span>
+					{% trans %}Directory index{% endtrans %}<span class="sr-only">(current)</span>
+				</a>
+			</li>
+			<li class="nav-item"></li>
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-      <li class="nav-item">    
+				<li class="nav-item">
 
-          <a class="nav-link " href="{{ ('comment_index') }}"><span class="fa-address-card-o  fa"></span>{% trans %}Comment{% endtrans %}</a>
-      </li>
-      
-                      {% if is_granted('ROLE_ADMIN') %}
+					<a class="nav-link " href="{{ path('company_division_index') }}">
+						<span class="fa-address-card-o  fa"></span>
+						{% trans %}Division{% endtrans %}</a>
+				</li>
 
-      <li class="nav-item">
-          <a class="nav-link" href="{{ ('hotel_index') }}"><span class="fa fa-random"></span>{% trans %}Hotel{% endtrans %}</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="{{ ('restaurant_index') }}"><span class="fa fa-ban    "></span>{% trans %}Restaurant{% endtrans %}</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="{{ ('bar_index') }}"><span class="fa fa-ban    "></span>{% trans %}Bar{% endtrans %}</a>
-      </li>
+				{% if is_granted('ROLE_ADMIN') %}
 
-                      {% endif %}
-                {% endif %}
-      
-      
-    </ul>
-        
-    <ul class="list-unstyled list-inline navbar-nav">
-                      {% if app.user %}
-              <li class="nav-item w3-padding-small ">
-                <a class="nav-link w3-teal  w3-round-large w3-btn " href=""><span class="fa fa-user-circle "> </span> {{ app.user.username }}</a>
-                   </li>
-              <li class="nav-item  w3-padding-small">
+					<li class="nav-item">
+						<a class="nav-link" href="{{ ('hotel_index') }}">
+							<span class="fa fa-random"></span>
+							{% trans %}Hotel{% endtrans %}</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ ('restaurant_index') }}">
+							<span class="fa fa-ban    "></span>
+							{% trans %}Restaurant{% endtrans %}</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ ('directory_index') }}">
+							<span class="fa fa-ban    "></span>
+							{% trans %}direc{% endtrans %}</a>
+					</li>
 
-                <a class="nav-link w3-pink  w3-round-large   w3-btn " href="{{ ('app_logout') }}"><span class="fa fa-sign-out"></span>{% trans %}Logout{% endtrans %}</a>
-              </li>
-          {% else %}
-              <li class="nav-item ">
+				{% endif %}
+			{% endif %}
 
-              <a class="nav-link w3-teal w3-center w3-round-large" href="{{ ('app_login') }}"><span class="fa fa-user"></span>{% trans %}Login {% endtrans %}</a>
-              </li>
-              <li class="nav-item">
 
-                  <a class="nav-link" href="{{ ('app_register') }}"><span class="fa fa-user-plus"></span>{% trans %}register {% endtrans %}</a>
-              </li>
-          {% endif %}
-        </ul>
-        
-        
-        
-  </div>
+		</ul>
+
+		<ul class="list-unstyled list-inline navbar-nav">
+			{% if app.user %}
+				<li class="nav-item w3-padding-small ">
+					<a class="nav-link w3-teal  w3-round-large w3-btn " href="">
+						<span class="fa fa-user-circle "></span>
+						{{ app.user.username }}</a>
+				</li>
+				<li class="nav-item  w3-padding-small">
+
+					<a class="nav-link w3-pink  w3-round-large   w3-btn " href="{{ path('app_logout') }}">
+						<span class="fa fa-sign-out"></span>
+						{% trans %}Logout{% endtrans %}</a>
+				</li>
+			{% else %}
+				<li class="nav-item ">
+
+					<a class="nav-link w3-teal w3-center w3-round-large" href="{{ path('app_login') }}">
+						<span class="fa fa-user"></span>
+						{% trans %}Login
+						{% endtrans %}</a>
+				</li>
+				<li class="nav-item">
+
+					<a class="nav-link" href="{{ path('app_register') }}">
+						<span class="fa fa-user-plus"></span>
+						{% trans %}register
+						{% endtrans %}</a>
+				</li>
+			{% endif %}
+		</ul>
+
+
+	</div>
 </nav>
-  
-    
-    
-    <!-- CSS -->
 
 
-    {#
+<!-- CSS -->
+
+
+{#
     
     
     		<div id="header">

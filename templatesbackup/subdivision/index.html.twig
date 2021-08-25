@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Subdivision index{% endblock %}
+
+{% block body %}
+    <h1>Subdivision index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>UpdateAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for subdivision in subdivisions %}
+            <tr>
+                <td>{{ subdivision.id }}</td>
+                <td>{{ subdivision.name }}</td>
+                <td>{{ subdivision.description }}</td>
+                <td>{{ subdivision.updateAt ? subdivision.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('subdivision_show', {'id': subdivision.id}) }}">show</a>
+                    <a href="{{ path('subdivision_edit', {'id': subdivision.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('subdivision_new') }}">Create new</a>
+{% endblock %}

@@ -19,6 +19,15 @@ class CompanyDivisionRepository extends ServiceEntityRepository
         parent::__construct($registry, CompanyDivision::class);
     }
 
+    public function findByCompany($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.company','e')
+            ->andWhere('e.id = :val')
+            ->setParameter('val', $value)
+;
+    }
+
     // /**
     //  * @return CompanyDivision[] Returns an array of CompanyDivision objects
     //  */

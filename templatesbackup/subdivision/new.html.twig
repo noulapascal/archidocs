@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Subdivision{% endblock %}
+
+{% block body %}
+    <h1>Create new Subdivision</h1>
+
+    {{ include('subdivision/_form.html.twig') }}
+
+    <a href="{{ path('subdivision_index') }}">back to list</a>
+{% endblock %}

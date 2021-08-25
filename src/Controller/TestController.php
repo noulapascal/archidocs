@@ -8,13 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class TestController extends AbstractController
 {
     /**
-     * @Route("/test", name="test")
+     * @Route("/", name="home")
+     * @Route("/", name="test")
      */
     public function index()
     {
-        return $this->render('test/index.html.twig', [
-            'controller_name' => 'TestController',
-        ]);
+        return $this->redirectToRoute('directory_index');
     }
 
     /**
