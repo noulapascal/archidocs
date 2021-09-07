@@ -279,7 +279,7 @@ class Company
         }
     public function __toString()
     {
-        return $this->getName()    ;    
+        return $this->getCode()    ;    
     }
 
     public function getSigle(): ?string

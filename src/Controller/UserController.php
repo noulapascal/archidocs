@@ -4,17 +4,27 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\ProfileType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 /**
- * @Route("/user")
+ * @Route(
+ *     "/{_locale}/user",
+ *     requirements={
+ *         "_locale": "en|fr|de",
+ *     }
+ * ) 
+ * @IsGranted("IS_AUTHENTICATED_FULLY") 
  */
+
 class UserController extends AbstractController
 {
     /**
@@ -22,10 +32,79 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
+
+        if (!empty($this->getUser())) {
+            if($this->isGranted(('ROLE_ADMIN')))
+            {
+
+                return $this->render('user/index.html.twig', [
+                    'users' =>  $userRepository->findByCompanyForController
+                    (
+                        $this->getUser()->getDivision()->getCompany()
+                    ),
+                ]);
+
+            } elseif ($this->isGranted('ROLE_HABITECH') or $this->isGranted('ROLE_SUPER_ADMIN')) {
+                # code...
+                return $this->render('user/index.html.twig', [
+                    'users' =>  $userRepository->findAll()
+                ]);
+            }
+            # code...
+        }
+
+        return $this->render('user/index.html.twig', [
+            'users' => ""
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/admin", name="user_admin_index", methods={"GET"})
+     */
+    public function indexadmin(UserRepository $userRepository): Response
+    {
+
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
+
+
+    
+
+        /**
+     * @Route("/profile/{id}", name="user_profile", methods={"GET","POST","PUT"})
+     */
+    public function userProfile(Request $request,User $user, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('user_profile', [
+                'id'=>$user->getId(),
+            ], Response::HTTP_SEE_OTHER);
+        }
+       
+
+        return $this->render('user/profile.html.twig', [
+            'user' => $user,
+            'form' =>$form->createView()
+        ]);
+    }
+
+
+
 
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
@@ -45,6 +124,7 @@ class UserController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+            $user->setRoles([$form['roles']]);
             $entityManager->persist($user);
             $entityManager->flush();
 

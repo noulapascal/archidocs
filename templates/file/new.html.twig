@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New File{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Create new{% endtrans %} {% trans %}File{% endtrans %}<h1>
+
+    {{ include('file/_form.html.twig') }}
+
+    <a href="{{ path('file_index') }}">back to list</a>
+{% endblock %}

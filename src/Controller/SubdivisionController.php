@@ -2,20 +2,28 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
+use App\Entity\Region;
+use App\Entity\Division;
 use App\Entity\Subdivision;
+use App\Form\SubUploadType;
+use App\Entity\Municipality;
 use App\Form\SubdivisionType;
 use App\Repository\SubdivisionRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Form\SubUploadType;
-use App\Entity\City;
-use App\Entity\Region;
-use App\Entity\Municipality;
-use App\Entity\Division;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 /**
- * @Route("/subdivision")
+ * @Route(
+ *     "/{_locale}/subdivision",
+ *     requirements={
+ *         "_locale": "en|fr|de",
+ *     }
+ * ) 
+ * @IsGranted("IS_AUTHENTICATED_FULLY") 
  */
 class SubdivisionController extends AbstractController
 {

@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Directory;
+use App\Entity\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Directory|null find($id, $lockMode = null, $lockVersion = null)
- * @method Directory|null findOneBy(array $criteria, array $orderBy = null)
- * @method Directory[]    findAll()
- * @method Directory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method File|null find($id, $lockMode = null, $lockVersion = null)
+ * @method File|null findOneBy(array $criteria, array $orderBy = null)
+ * @method File[]    findAll()
+ * @method File[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class FileRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Directory::class);
+        parent::__construct($registry, File::class);
     }
 
     // /**
-    //  * @return Directory[] Returns an array of Directory objects
+    //  * @return File[] Returns an array of File objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FileRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Directory
+    public function findOneBySomeField($value): ?File
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.exampleField = :val')
@@ -59,5 +59,21 @@ class FileRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+
+    public function findByCompanyDivisionWithNoParent($value)
+    {
+        return $this->createQueryBuilder('f')
+        ->join('f.parentFolder', 'd')
+        ->join('d.companyDivision', 'c')          
+
+        ->andWhere('c.id = :val')
+            ->andWhere('d.parent IS NULL')
+            ->setParameter('val', $value)
+            ->orderBy('d.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
     }
 }

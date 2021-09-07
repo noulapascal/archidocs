@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\CompanyDivision;
 use App\Entity\User;
+use App\Form\RegistrationAdminFormType;
 use App\Form\RegistrationFormType;
+use App\Form\UserTypeAdmin;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -62,6 +64,49 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+        ]);
+
+    }
+
+
+    
+    /**
+     * @Route("/register_admin", name="app_admin_register")
+     */
+    public function AdminRegister(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserTypeAdmin::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // generate a signed url and email it to the user
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('archidocs@habitechsolution.com', '"Archidocs, votre solution de gestion numérique de documents"'))
+                    ->to($user->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
+            // do anything else you need here, like send an email
+
+            return $this->redirectToRoute('directory_index');
+        }
+
+        return $this->render('user/new.html.twig', [
+            'form' => $form->createView(),
         ]);
 
     }

@@ -13,9 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+
 /**
- * @Route("/country")
+ * @Route(
+ *     "/{_locale}/country",
+ *     requirements={
+ *         "_locale": "en|fr|de",
+ *     }
+ * )
+ *  @IsGranted("ROLE_SUPER_ADMIN") 
  */
+
 class CountryController extends AbstractController
 {
     /**

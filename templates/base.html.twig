@@ -1,27 +1,49 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta name='keywords' content="archives données data gestion numérique de documents stockage nuage cloud center habitech solutions and service">
+		<meta name="author" content="MOUAFO NOULA Pascal">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 		<title>
-			{% block title %}Welcome!
+			{% block title %}
+				{% trans %}
+				Welcome!
+				{% endtrans %}
 			{% endblock %}
 		</title>
+		<link rel="icon" type="image/png" href="{{ asset('./favicon.png') }}"/>
+		<link rel="shortcut icon" type="image/png" href="{{ asset('./favicon.png') }}"/>
+
 		{%  include  "css.html.twig" %}
 		{% block stylesheets %}{% endblock %}
-	</head>
-	<body>
-		{% include 'nav.html.twig' %}
-		{% include 'sidebar.html.twig' %}
-		{% include 'sidebar.html2.twig' %}
+		<style>
+			.required:after {
+				content: " * ";
+				color: red;
+			}
+		</style>
 
-		<div class="w3-container w3-main w3-animate-zoom" style="margin-left:340px;margin-right:340px;min-height: 500px"> {% block body %}{% endblock %}
+	</head>
+	<body id="page">
+
+		<div class="w3-container">
+			{% include 'nav.html.twig' %}
+			{% include 'sidebar.html.twig' %}
 		</div>
-			{% block footer %}{% endblock %}
+		<div class="w3-container w3-main w3-animate-zoom" style="margin-left:340px;margin-right:40px;min-height: 500px"> 
+		{% block body %}{% endblock %}
+		{% block footer %}{% endblock %}
 
 
 			{%  include  "js.html.twig" %}
 
 
 			{% block javascripts %}{% endblock %}
-		</body>
-	</html>
+		</div>
+
+	</body>
+</html>

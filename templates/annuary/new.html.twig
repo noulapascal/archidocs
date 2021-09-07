@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Annuary{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Create new{% endtrans %} {% trans %}Annuary{% endtrans %}<h1>
+
+    {{ include('annuary/_form.html.twig') }}
+
+    <a href="{{ path('annuary_index') }}">back to list</a>
+{% endblock %}

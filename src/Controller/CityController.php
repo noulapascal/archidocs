@@ -12,9 +12,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+
 /**
- * @Route("/city")
- *  * @IsGranted("ROLE_SUPER_ADMIN") 
+ * @Route(
+ *     "/{_locale}/city",
+ *     requirements={
+ *         "_locale": "en|fr|de",
+ *     }
+ * )
+ *  @IsGranted("ROLE_SUPER_ADMIN") 
  */
 class CityController extends AbstractController
 {

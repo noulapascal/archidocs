@@ -3,12 +3,12 @@
 {% block title %}CompanyDivision{% endblock %}
 
 {% block body %}
-    <h1>CompanyDivision</h1>
+    <h1>{% trans %}CompanyDivision{% endtrans %}<h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>{% trans %}Id{% endtrans %}</th>
                 <td>{{ company_division.id }}</td>
             </tr>
         </tbody>
@@ -16,7 +16,7 @@
 
     <a href="{{ path('company_division_index') }}">back to list</a>
 
-    <a href="{{ path('company_division_edit', {'id': company_division.id}) }}">edit</a>
+    <a href="{{ path('company_division_edit', {'id': company_division.id}) }}">{% trans %}edit{% endtrans %}</a>
 
     {{ include('company_division/_delete_form.html.twig') }}
 {% endblock %}

@@ -8,10 +8,29 @@
 		;
 		// text-indent: 35px;
 	}
+	nav {
+		background: white;
+		color: #2bb673;
+	}
+	nav:hover {
+		background: #2bb673;
+		color: #fff;
+
+	}
+	.fa {
+//		background: ;
+		color:#000;
+		border-radius: 10%;
+	}
+	fa:visited {
+		background: teal;
+		color: #fff;
+		border-radius: 10%;
+	}
 </style>
-<nav class="navbar navbar-expand-lg navbar-light  w3-teal  w3-hover-light-grey w3-hover-text-white w3-animate-input w3-animate-opacity">
+<nav class="navbar navbar-expand-lg navbar-light w3-card  w3-animate-input w3-animate-opacity ">
 	<a class="navbar-brand" href="#">
-		<marquee wid th="128px"><img src="{{ asset('./images/archidoc.png') }}" alt="archidoc.png" width="64px" class="w3-image w3-small w3-round-xxlarge">
+		<marquee width="128px"><img src="{{ asset('./images/archidoc.png') }}" alt="archidoc.png" width="64px" class="w3-image w3-small w3-round-xxlarge">
 		</marquee>
 	</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="true" aria-label="Toggle navigation">
@@ -28,7 +47,7 @@
 			</li>
 			<li class="nav-item ">
 				<a class="nav-link " href="{{ path('directory_index') }}">
-					<span class="fa fa-hospital-o"></span>
+					<span class="fa fa-folder-open-o"></span>
 					{% trans %}Directory index{% endtrans %}<span class="sr-only">(current)</span>
 				</a>
 			</li>
@@ -38,38 +57,42 @@
 				<li class="nav-item">
 
 					<a class="nav-link " href="{{ path('company_division_index') }}">
-						<span class="fa-address-card-o  fa"></span>
+						<span class="fa-building-o  fa"></span>
 						{% trans %}Division{% endtrans %}</a>
 				</li>
 
-				{% if is_granted('ROLE_ADMIN') %}
 
-					<li class="nav-item">
-						<a class="nav-link" href="{{ ('hotel_index') }}">
-							<span class="fa fa-random"></span>
-							{% trans %}Hotel{% endtrans %}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{ ('restaurant_index') }}">
-							<span class="fa fa-ban    "></span>
-							{% trans %}Restaurant{% endtrans %}</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{ ('directory_index') }}">
-							<span class="fa fa-ban    "></span>
-							{% trans %}direc{% endtrans %}</a>
-					</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('user_index') }}">
+						<span class="fa fa-user-o"></span>
+						{% trans %}Users{% endtrans %}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('book_index') }}">
+						<span class="fa fa-book"></span>
+						{% trans %}Documentation{% endtrans %}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('annuary_index') }}">
+						<span class="fa fa-address-book-o    "></span>
+						{% trans %}Annuary{% endtrans %}</a>
+				</li>
 
-				{% endif %}
 			{% endif %}
 
 
 		</ul>
 
-		<ul class="list-unstyled list-inline navbar-nav">
+		<form action='{{ path('directory_search') }}' class='form-inline'>
+			<input class="form-control" name='keyword' type="text" placeholder="Search" aria-label="Search">
+			<button type='submit' class='w3-btn w3-teal'><span class='fa fa-search'></span></button>
+		</form>
+
+
+		<ul class="list-unstyled list-inline navbar-nav w3-right">
 			{% if app.user %}
 				<li class="nav-item w3-padding-small ">
-					<a class="nav-link w3-teal  w3-round-large w3-btn " href="">
+					<a class="nav-link w3-teal  w3-round-large w3-btn " href="{{path("user_profile",{"id": app.user.id })}}">
 						<span class="fa fa-user-circle "></span>
 						{{ app.user.username }}</a>
 				</li>
@@ -89,56 +112,52 @@
 				</li>
 				<li class="nav-item">
 
-					<a class="nav-link" href="{{ path('app_register') }}">
-						<span class="fa fa-user-plus"></span>
-						{% trans %}register
-						{% endtrans %}</a>
-				</li>
-			{% endif %}
-		</ul>
+
+				{% endif %}
+			</ul>
 
 
-	</div>
-</nav>
-
-
-<!-- CSS -->
-
-
-{#
-    
-    
-    		<div id="header">
-			<div id="navigation">
-				<span id="mobile-navigation">&nbsp;</span>
-				<a href="index.html" class="logo navbar-brand"><img src="{{ asset('image/beb3.png') }}" alt="BIRTH" width="32px"></a>
-				<ul id="menu">
-					<li class="selected">
-						<a href="index.html">Home</a>
-					</li>
-					<li>
-						<a href="about.html">About</a>
-					</li>
-					<li>
-						<a href="running.html">Running</a>
-						<ul>
-							<li>
-								<a href="runningsinglepost.html">Running single post</a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="blog.html">Blog</a>
-						<ul>
-							<li>
-								<a href="blogsinglepost.html">blog single post</a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="contact.html">Contact</a>
-					</li>
-				</ul>
-			</div>
 		</div>
-    #}
+	</nav>
+
+
+	<!-- CSS -->
+
+
+	{#
+	    
+	    
+	    		<div id="header">
+				<div id="navigation">
+					<span id="mobile-navigation">&nbsp;</span>
+					<a href="index.html" class="logo navbar-brand"><img src="{{ asset('image/beb3.png') }}" alt="BIRTH" width="32px"></a>
+					<ul id="menu">
+						<li class="selected">
+							<a href="index.html">Home</a>
+						</li>
+						<li>
+							<a href="about.html">About</a>
+						</li>
+						<li>
+							<a href="running.html">Running</a>
+							<ul>
+								<li>
+									<a href="runningsinglepost.html">Running single post</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="blog.html">Blog</a>
+							<ul>
+								<li>
+									<a href="blogsinglepost.html">blog single post</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="contact.html">Contact</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+	    #}

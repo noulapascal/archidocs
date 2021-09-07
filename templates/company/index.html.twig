@@ -3,17 +3,17 @@
 {% block title %}Company index{% endblock %}
 
 {% block body %}
-    <h1>Company index</h1>
+    <h1>{% trans %}Company index{% endtrans %}<h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>MailAddress</th>
-                <th>PhoneNumber</th>
-                <th>actions</th>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}MailAddress{% endtrans %}</th>
+                <th>{% trans %}PhoneNumber{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -25,17 +25,17 @@
                 <td>{{ company.mailAddress }}</td>
                 <td>{{ company.phoneNumber }}</td>
                 <td>
-                    <a href="{{ path('company_show', {'id': company.id}) }}">show</a>
-                    <a href="{{ path('company_edit', {'id': company.id}) }}">edit</a>
+                    <a href="{{ path('company_show', {'id': company.id}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('company_edit', {'id': company.id}) }}">{% trans %}edit{% endtrans %}</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">{% trans %}no records found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('company_new') }}">Create new</a>
+    <a href="{{ path('company_new') }}">{% trans %}Create new{% endtrans %}</a>
 {% endblock %}

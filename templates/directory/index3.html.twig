@@ -1,56 +1,94 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Directory index{% endblock %}
+{% block title %}Directory index
+{% endblock %}
 
 {% block body %}
-    <h1>Directory index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>UpdateAt</th>
-                <th>Description</th>
-                <th>Size</th>
-                <th>Type</th>
-                <th>Extension</th>
-                <th>permissions</th>
-                <th>Path</th>
-                <th>access</th>
-                <th>FileType</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for dirs in directories %}
-        {% for directory in dirs %}
-            <tr>
-            
-                <td> s  </td>
-                <td>{{ directory.name }}</td>
-                <td>{{ directory.date ? directory.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ directory.perms }}</td>
-                <td>{{ directory.size }}</td>
-                <td>{{ directory.type }}</td>
-                <td>{{ directory.ext }}</td>
-                <td> </td>
-                <td></td>
-                <td>{{ directory.access ? 'Yes' : 'No' }}</td>
-                <td>{{ directory.type }}</td>
-                <td>
-                
-                </td>
-            </tr>
-            
-        {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="12">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	{% include "directory/index.nav.twig" %}
 
-    <a href="{{ path('directory_child_new',{'id': parent.id}) }}">Create new</a>
-{% endblock %}
+	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+
+		<h2 class='fileTitle w3-bar w3-teal'>Folders
+		</h2>
+		{% include "directory/table_display.html.twig" %}
+
+		<h2 class='fileTitle w3-bar w3-teal'>Files
+		</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>{% trans %}icon{% endtrans %}</th>
+					<th>{% trans %}Name{% endtrans %}</th>
+					<th>{% trans %}UpdateAt{% endtrans %}</th>
+					<th>{% trans %}Content{% endtrans %}</th>
+					<th>{% trans %}Size{% endtrans %}</th>
+					<th>{% trans %}Type{% endtrans %}</th>
+					<th>{% trans %}Download{% endtrans %}</th>
+					<th>{% trans %}View{% endtrans %}</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for file in data %}
+					<tr>
+
+						<td class='photo' style="width:10%">
+							<a href="{{ asset(file.parentFolder ? 'data/' ~ file.parentFolder.companyDivision.0.company ~ "/" ~ file.parentFolder.path ~ "/" ~ file.name : path("file_index") ) }}">
+								<img src="{{ asset("images/file.png") }}" class='img img-responsive w3-padding-large w3-circle	' alt="file">
+							</a>
+						</td>
+						<td>
+							<a href="{{ asset(file.parentFolder ? 'data/' ~ file.parentFolder.companyDivision.0.company ~ "/" ~ file.parentFolder.path ~ "/" ~ file.name : path("file_index") ) }}">
+								{{ file.name }}</a>
+						</td>
+						<td>{{ file.updateAt ? file.updateAt|date('Y-m-d H:i:s') : '' }}
+						</td>
+						<td>{{ file.description }}</td>
+						<td>{{ (file.size / 1024) |round }}
+							Ko
+						</td>
+						<td>{{ file.type }}</td>
+
+						<td>
+							<a href="{{ asset(file.parentFolder ?  
+							'data/' ~ file.parentFolder.companyDivision.0.company ~ "/" ~
+							 file.parentFolder.path ~ "/" ~ file.name : path("file_index") ) }}"
+							 ) }}" ) }}" download="{{ file.name }}" 
+							 class="w3-btn fa fa-download">
+								Download</a>
+						</td>
+						<td>
+							<a href="{{ asset(file.parentFolder ?  
+							'data/' ~ file.parentFolder.companyDivision.0.company ~ "/" ~
+							 file.parentFolder.path ~ "/" ~ file.name : path("file_index") ) }}"
+							 ) }}" class="w3-btn fa fa-eye">
+								Show
+							</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="12">no file found</td>
+					</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+
+	</div>
+
+	<div class="tab-pane fade w3-animate-zoom" id="nav-folder" role="tabpanel" aria-labelledby="nav-folder-tab">
+		{% for directory in directories %}
+
+			{% include "directory/folder_display.html.twig" %}
+		{% endfor %}
+		{% include "directory/fileList.html.twig" %}
+
+	</div>
+	<div></div>
+</div>
+<a href="{{ path('directory_child_new',{'id': parent.id}) }}">{% trans %}Create new{% endtrans %}</a>
+
+{% include "directory/upload.html.twig" %}{% endblock %}

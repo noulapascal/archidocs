@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Annuary index{% endtrans %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Annuary index{% endtrans %}<h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans %} Id{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}UpdateAt{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for annuary in annuaries %}
+            <tr>
+                <td>{{ annuary.id }}</td>
+                <td>{{ annuary.name }}</td>
+                <td>{{ annuary.description }}</td>
+                <td>{{ annuary.updateAt ? annuary.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('annuary_show', {'id': annuary.id}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('annuary_edit', {'id': annuary.id}) }}">{% trans %}edit{% endtrans %}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">{% trans %}no records found{% endtrans %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('annuary_new') }}">{% trans %}Create new{% endtrans %}</a>
+{% endblock %}

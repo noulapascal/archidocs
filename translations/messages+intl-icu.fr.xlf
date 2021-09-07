@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="EhVukhv" resname="Id">
+        <source>Id</source>
+        <target>__Id</target>
+      </trans-unit>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="Um4Ah8w" resname="Description">
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="Zfxtfhe" resname="UpdateAt">
+        <source>UpdateAt</source>
+        <target>Mis à jour Le</target>
+      </trans-unit>
+      <trans-unit id="Kw3N1AA" resname="actions">
+        <source>actions</source>
+        <target>actions</target>
+      </trans-unit>
+      <trans-unit id="zI.Z63_" resname="Welcome!">
+        <source>Welcome!</source>
+        <target>Bienvenue!</target>
+      </trans-unit>
+      <trans-unit id="5RmCe_6" resname="MailAddress">
+        <source>MailAddress</source>
+        <target>Adresse mail</target>
+      </trans-unit>
+      <trans-unit id="zX3aSUS" resname="PhoneNumber">
+        <source>PhoneNumber</source>
+        <target>Numéro de téléphone</target>
+      </trans-unit>
+      <trans-unit id="gqNTf.D" resname="name">
+        <source>name</source>
+        <target>nom</target>
+      </trans-unit>
+      <trans-unit id="O4gZmZs" resname="PhoneNumberOne">
+        <source>PhoneNumberOne</source>
+        <target>Numéro de téléphone Principal </target>
+      </trans-unit>
+      <trans-unit id="HlpBzCA" resname="PhoneNumberTwo">
+        <source>PhoneNumberTwo</source>
+        <target>Numéro de téléphone secondaire</target>
+      </trans-unit>
+      <trans-unit id="K0QbQys" resname="PhoneNumberThree">
+        <source>PhoneNumberThree</source>
+        <target>Troisieme numéro de téléphone</target>
+      </trans-unit>
+      <trans-unit id="lpzL089" resname="Email">
+        <source>Email</source>
+        <target>Adresse Email</target>
+      </trans-unit>
+      <trans-unit id="Vu_PIJV" resname="Address">
+        <source>Address</source>
+        <target>Adressse</target>
+      </trans-unit>
+      <trans-unit id="37uInPG" resname="display">
+        <source>display</source>
+        <target>Afficher</target>
+      </trans-unit>
+      <trans-unit id="x_z.2qC" resname="Showing _START_ to _END_ of _TOTAL_ entries">
+        <source>Showing _START_ to _END_ of _TOTAL_ entries</source>
+        <target>Vue de  Debut à la END ème Des _TOTAL_ Entrées</target>
+      </trans-unit>
+      <trans-unit id="FYsuEYZ" resname="Showing 0 to 0 of 0 entries">
+        <source>Showing 0 to 0 of 0 entries</source>
+        <target>Vue 0 sur 0 </target>
+      </trans-unit>
+      <trans-unit id="5JeM4al" resname="Show _MENU_ entries">
+        <source>Show _MENU_ entries</source>
+        <target>Vue _MENU_ </target>
+      </trans-unit>
+      <trans-unit id="haDDSOK" resname="Division">
+        <source>Division</source>
+        <target>Division</target>
+      </trans-unit>
+      <trans-unit id="YvpaWw0" resname="Path">
+        <source>Path</source>
+        <target>Chemin</target>
+      </trans-unit>
+      <trans-unit id="GvhRkHM" resname="Size">
+        <source>Size</source>
+        <target>Taille</target>
+      </trans-unit>
+      <trans-unit id="uq3fcPt" resname="Type">
+        <source>Type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="OVrrlV4" resname="Extension">
+        <source>Extension</source>
+        <target>Extension</target>
+      </trans-unit>
+      <trans-unit id="T_PN1AT" resname="permissions">
+        <source>permissions</source>
+        <target>permissions</target>
+      </trans-unit>
+      <trans-unit id="MfYNfZZ" resname="IsFIle">
+        <source>IsFIle</source>
+        <target>IsFIle</target>
+      </trans-unit>
+      <trans-unit id="RwRF29t" resname="FileType">
+        <source>FileType</source>
+        <target>Type de fichier</target>
+      </trans-unit>
+      <trans-unit id="wtS0RqR" resname="icon">
+        <source>icon</source>
+        <target>Icône</target>
+      </trans-unit>
+      <trans-unit id="R70pB1_" resname="Content">
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit id="1ur_gjW" resname="Download">
+        <source>Download</source>
+        <target>Télécharger</target>
+      </trans-unit>
+      <trans-unit id="3Mg5pAF" resname="View">
+        <source>View</source>
+        <target>Vue</target>
+      </trans-unit>
+      <trans-unit id="q8zHjMk" resname="Permissions">
+        <source>Permissions</source>
+        <target>Permissions</target>
+      </trans-unit>
+      <trans-unit id="oK_fhlv" resname="path">
+        <source>path</source>
+        <target>Chemin</target>
+      </trans-unit>
+      <trans-unit id="ElRmuCH" resname="By">
+        <source>By</source>
+        <target>Par</target>
+      </trans-unit>
+      <trans-unit id="uHhgoOU" resname="CreateAt">
+        <source>CreateAt</source>
+        <target>Créé(e) le</target>
+      </trans-unit>
+      <trans-unit id="FwkwXJ_" resname="Level">
+        <source>Level</source>
+        <target>Niveau</target>
+      </trans-unit>
+      <trans-unit id="OnhpU4i" resname="Home">
+        <source>Home</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="rH5nM4j" resname="Directory index">
+        <source>Directory index</source>
+        <target>Vos Dossiers</target>
+      </trans-unit>
+      <trans-unit id="awzJBNC" resname="Users">
+        <source>Users</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="p5mDA3." resname="Annuary">
+        <source>Annuary</source>
+        <target>Annuaire</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>Déconnexion</target>
+      </trans-unit>
+      <trans-unit id="nWMiwfT" resname="Login">
+        <source>Login</source>
+        <target>Connexion</target>
+      </trans-unit>
+      <trans-unit id="fZ63rLE" resname="Close">
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="pP5lJk7" resname="Language">
+        <source>Language</source>
+        <target>Langue</target>
+      </trans-unit>
+      <trans-unit id="1pajW90" resname="Profile">
+        <source>Profile</source>
+        <target>Profile</target>
+      </trans-unit>
+      <trans-unit id="oZq20Xn" resname="Directories">
+        <source>Directories</source>
+        <target>Repertoires</target>
+      </trans-unit>
+      <trans-unit id="3kdDyHl" resname="Company">
+        <source>Company</source>
+        <target>Structure</target>
+      </trans-unit>
+      <trans-unit id="FFN3XfC" resname="New Company">
+        <source>New Company</source>
+        <target>Nouvelle Structure</target>
+      </trans-unit>
+      <trans-unit id="VpwyyQa" resname="All Companies">
+        <source>All Companies</source>
+        <target>Toutes les structures</target>
+      </trans-unit>
+      <trans-unit id="u3I07BJ" resname="Register">
+        <source>Register</source>
+        <target>Inscrire un  utilisateur</target>
+      </trans-unit>
+      <trans-unit id="tRLZfny" resname="User">
+        <source>User</source>
+        <target>Utilisateur</target>
+      </trans-unit>
+      <trans-unit id="Rn1BqBT" resname="new user">
+        <source>new user</source>
+        <target>nouvel utilisateur</target>
+      </trans-unit>
+      <trans-unit id="94mBMOV" resname="All users">
+        <source>All users</source>
+        <target>Tous les utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="Kt3F0EH" resname="New Company Division">
+        <source>New Company Division</source>
+        <target>Nouvelle division de structure</target>
+      </trans-unit>
+      <trans-unit id="ZQANQwx" resname="Social solutions, we have them">
+        <source>Social solutions, we have them</source>
+        <target>Des solutions sociales, nous en avons</target>
+      </trans-unit>
+      <trans-unit id="ZzVDLVI" resname="ARCHIDOCS">
+        <source>ARCHIDOCS</source>
+        <target>ARCHIDOCS</target>
+      </trans-unit>
+      <trans-unit id="uhGL9.y" resname="English">
+        <source>English</source>
+        <target>English</target>
+      </trans-unit>
+      <trans-unit id="dFgZn_l" resname="French">
+        <source>French</source>
+        <target>Français</target>
+      </trans-unit>
+      <trans-unit id="Murrb4B" resname="Birth">
+        <source>Birth</source>
+        <target>Birth</target>
+      </trans-unit>
+      <trans-unit id="j5lMikX" resname="Record a birth">
+        <source>Record a birth</source>
+        <target>Enregistrer une naissance</target>
+      </trans-unit>
+      <trans-unit id="idZCb2A" resname="All Birth Certificate">
+        <source>All Birth Certificate</source>
+        <target>__All Birth Certificate</target>
+      </trans-unit>
+      <trans-unit id="qUI9j4h" resname="Complete Birth certificate">
+        <source>Complete Birth certificate</source>
+        <target>__Complete Birth certificate</target>
+      </trans-unit>
+      <trans-unit id="gmpDkIR" resname="Marriage">
+        <source>Marriage</source>
+        <target>__Marriage</target>
+      </trans-unit>
+      <trans-unit id="1ttuqEg" resname="Record a Wedding">
+        <source>Record a Wedding</source>
+        <target>__Record a Wedding</target>
+      </trans-unit>
+      <trans-unit id="02FMa2b" resname="All marriage Certificate">
+        <source>All marriage Certificate</source>
+        <target>__All marriage Certificate</target>
+      </trans-unit>
+      <trans-unit id="6Okik1." resname="Complete Marriage certificate">
+        <source>Complete Marriage certificate</source>
+        <target>__Complete Marriage certificate</target>
+      </trans-unit>
+      <trans-unit id=".Nb_py3" resname="Death">
+        <source>Death</source>
+        <target>__Death</target>
+      </trans-unit>
+      <trans-unit id="N76D977" resname="All Death Certificate">
+        <source>All Death Certificate</source>
+        <target>__All Death Certificate</target>
+      </trans-unit>
+      <trans-unit id="DhLA2kF" resname="Complete death certificate">
+        <source>Complete death certificate</source>
+        <target>__Complete death certificate</target>
+      </trans-unit>
+      <trans-unit id="U8eoeWF" resname="Record a death">
+        <source>Record a death</source>
+        <target>__Record a death</target>
+      </trans-unit>
+      <trans-unit id="47ienTP" resname="Username">
+        <source>Username</source>
+        <target>Nom d'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="wlM3BVR" resname="Roles">
+        <source>Roles</source>
+        <target>Roles</target>
+      </trans-unit>
+      <trans-unit id="mQsj6BR" resname="division">
+        <source>division</source>
+        <target>division</target>
+      </trans-unit>
+      <trans-unit id="_yT_dEN" resname="Establishment index">
+        <source>Establishment index</source>
+        <target>Index des établissements</target>
+      </trans-unit>
+      <trans-unit id="RPXj__x" resname="Comment">
+        <source>Comment</source>
+        <target>__Comment</target>
+      </trans-unit>
+      <trans-unit id="UJs8Tl2" resname="Hotel">
+        <source>Hotel</source>
+        <target>__Hotel</target>
+      </trans-unit>
+      <trans-unit id="EhLqniC" resname="Restaurant">
+        <source>Restaurant</source>
+        <target>__Restaurant</target>
+      </trans-unit>
+      <trans-unit id="ldZMrM4" resname="Bar">
+        <source>Bar</source>
+        <target>__Bar</target>
+      </trans-unit>
+      <trans-unit id="h3gPpd5" resname="register">
+        <source>register</source>
+        <target>S'inscrire</target>
+      </trans-unit>
+      <trans-unit id="588_9PF" resname="Password">
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>      
+      <trans-unit id="reapeatpassword" resname="Repeat Password">
+        <source>Repeat Password</source>
+        <target>Repéter le Mot de passe</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

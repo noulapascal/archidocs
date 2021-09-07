@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}File{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}File{% endtrans %}<h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <td>{{ file.id }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <td>{{ file.name }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}UpdateAt{% endtrans %}</th>
+                <td>{{ file.updateAt ? file.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <td>{{ file.description }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Size{% endtrans %}</th>
+                <td>{{ file.size }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Type{% endtrans %}</th>
+                <td>{{ file.type }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}Extension{% endtrans %}</th>
+                <td>{{ file.extension }}</td>
+            </tr>
+
+            <tr>
+                <th>{% trans %}FileType{% endtrans %}</th>
+                <td>{{ file.fileType }}</td>
+            </tr>
+            <tr>
+                <th>{% trans %}CreateAt{% endtrans %}</th>
+                <td>{{ file.createAt ? file.createAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('file_index') }}">back to list</a>
+
+    <a href="{{ path('file_edit', {'id': file.id}) }}">{% trans %}edit{% endtrans %}</a>
+
+    {{ include('file/_delete_form.html.twig') }}
+{% endblock %}

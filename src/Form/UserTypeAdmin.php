@@ -15,6 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 class UserTypeAdmin extends AbstractType
 {
 
@@ -27,35 +30,38 @@ class UserTypeAdmin extends AbstractType
         $builder
 
             ->add('username')
-            ->add('password',RepeatedType::class,[
+            ->add('password', RepeatedType::class, [
 
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
                 'type' => PasswordType::class,
-            
-                ])
-                ->add('roles', ChoiceType::class,[
-                    'choices'=>[
-                        'HABITECH'=>"ROLE_HABITECH",
-                        'ADMINISTRATEUR'=>"ROLE_ADMIN",
-                        'USER'=>"ROLE_USER",           
-                        
-                        ],
-                        'label'=>'Account type',
-                    'mapped'=>false,
-                    'required'=>true
-                ])
+
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'ADMINISTRATEUR' => "ROLE_ADMIN",
+                    'USER' => "ROLE_USER",
+
+                ],
+                'label' => 'Account type',
+                'mapped' => false,
+                'required' => true
+            ])
             ->add('name')
             ->add('email')
-            ->add('division',EntityType::class,[
+            ->add('division', EntityType::class, [
                 'class' => CompanyDivision::class,
-                'query_builder' => function (CompanyDivisionRepository $repo){
-                    return $repo->findByCompany($this->security->getUser()->getDivision()->getCompany()->getId);
-                                }
-                ])   
-     
-            
-        ;
+                'query_builder' => function (CompanyDivisionRepository $repo) {
+                    return $repo->findByCompany($this->security->getUser()->getDivision()->getCompany()->getId());
+                }
+            ])->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should agree to our terms.',
+                    ]),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

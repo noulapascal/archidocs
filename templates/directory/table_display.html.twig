@@ -1,24 +1,189 @@
-<div class="w3-card-4  w3-quarter w3-padding-large">
+<style>
+	table {
+		width: 100%;
 
-			<div class="w3-container w3-center  w3-black w3-hover-teal">
-				<h3>{{ directory.name }}
-				</h3>
-				<a href="{{ path('index_list_folder',{'id': directory.id}) }}">
-				<img src="{{ asset("images/folder2.jpg") }}" alt="Avatar" style="width:80%" class="w3-img  w3-hoverable"/>
-				</a>
-				<h5>
+		overflow: auto;
+	}
+</style>
+
+<script lang='text/javascript'>
+
+	$(document).ready(function () {
+
+cells = document.getElementsByTagName("table");
+for (var i = 0; i < cells.length; i++) {
+cells[i].classList.add("display", "compact");
+cells[i].DataTable();
+
+}
+
+});
+
+
+$(document).ready(function () {
+$('table').DataTable();
+});
+</script>
+<div class="table-scrollable w3-center">
+
+	<table>
+		<thead>
+			<tr>
+				<th>{% trans %}icon{% endtrans %}</th>
+				<th>{% trans %}Name{% endtrans %}</th>
+				<th>{% trans %}UpdateAt{% endtrans %}</th>
+				<th>{% trans %}Description{% endtrans %}</th>
+				<th>{% trans %}Division{% endtrans %}</th>
+				<th>{% trans %}path{% endtrans %}</th>
+				<th>{% trans %}actions{% endtrans %}</th>
+
+
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for directory in directories %}
+				<tr>
+
+					<td class='photo' style="width:10%">
+
+
+						<a href="{{ path('index_list_file',{'id': directory.id}) }}">
+							<img src="{{ asset("images/folder2.jpg") }}" width="100%" height="100%" class='img-responsive img w3-circle'>
+						</a>
+					</td>
+					<td>
+						<a href="{{ path('index_list_file',{'id': directory.id}) }}">
+							{{ directory.name }}
+						</a>
+					</td>
+					<td>{{ directory.updateAt ? directory.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+
+						<div class="dropdown w3-round-large">
+							<button class="w3-btn w3-round-large dropdown-toggle icon icon-arrow-down" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+								<span class="fa fa-folder"></span>
+								Children
+								<span class="fa fa-angle-down"></span>
+							</button>
+
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+								{% for child in directory.children %}
+
+
+									<li>
+										<a class="dropdown-item fa fa-folder-o" href="{{ path('index_list_file',{'id': child.id}) }}">
+											{{ child.name }}
+										</a>
+									</li>
+
+								{% endfor %}
+
+							</ul>
+						</div>
+
+					</td>
+					<td>
+						{%  for division in directory.companyDivision %}
+
+							-
+							{{ division }}
+						{% endfor %}
+					</td>
+					<td>
+						<div>{{ directory.path }}</div>
+					</td>
+
+					<td>
+						<a class="w3-button w3-hover-blue fa fa-eye w3-padding-large" href="{{ path('index_list_file', {'id': directory.id}) }}">{% trans %}show{% endtrans %}</a>
+						<a class="w3-button w3-hover-teal w3-border-green w3-white w3-padding-large fa fa-pencil w3-margin-large" href="{{ path('directory_edit', {'id': directory.id}) }}">{% trans %}edit{% endtrans %}</a>
+					</td>
+				</tr>
+
+			{% else %}
+				<tr>
+					<td colspan="22">no folder found</td>
+				</tr>
+			{% endfor %}
+
+
+		</tbody>
+	</tr>
+
+</tbody></table>
+
+{% if app.request.attributes.get('_route')=='directory_index' and specialDir is defined %}
+
+
+<h3 class='w3panel w3-teal'>
+	SpecialAccess
+</h3>
+<table>
+	<tbody>
+
+		{% for directory in specialDir %}
+			<tr>
+
+				<td class='photo' style="width:10%">
+
+
+					<a href="{{ path('index_list_file',{'id': directory.id}) }}">
+						<img src="{{ asset("images/folder2.jpg") }}" width="100%" height="100%" class='img-responsive img w3-circle'>
+					</a>
+				</td>
+				<td>
+					<a href="{{ path('index_list_file',{'id': directory.id}) }}">
+						{{ directory.name }}
+					</a>
+				</td>
+				<td>{{ directory.updateAt ? directory.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+				<td>
+
+					<div class="dropdown w3-round-large">
+						<button class="w3-btn w3-round-large dropdown-toggle icon icon-arrow-down" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+							<span class="fa fa-folder"></span>
+							Children
+							<span class="fa fa-angle-down"></span>
+						</button>
+
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							{% for child in directory.children %}
+
+
+								<li>
+									<a class="dropdown-item fa fa-folder-o" href="{{ path('index_list_file',{'id': child.id}) }}">
+										{{ child.name }}
+									</a>
+								</li>
+
+							{% endfor %}
+
+						</ul>
+					</div>
+
+				</td>
+				<td>
 					{%  for division in directory.companyDivision %}
-						- {{ division }}
+
+						-
+						{{ division }}
 					{% endfor %}
-				</h5>
+				</td>
+				<td>
+					<div>{{ directory.path }}</div>
+				</td>
 
-				<button class="w3-button w3-green w3-small fa fa-eye">
-					<a class=" w3-link" href="{{ path('index_list_file', {'id': directory.id}) }}">show</a>
-				</button>
-				<button class="w3-button w3-red w3-small fa fa-pencil">
-					<a class=" w3-link" href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
-				</button>
+				<td>
+					<a class="w3-button w3-hover-blue fa fa-eye w3-padding-large" href="{{ path('index_list_file', {'id': directory.id}) }}">{% trans %}show{% endtrans %}</a>
+					<a class="w3-button w3-hover-teal w3-border-green w3-white w3-padding-large fa fa-pencil w3-margin-large" href="{{ path('directory_edit', {'id': directory.id}) }}">{% trans %}edit{% endtrans %}</a>
+				</td>
+			</tr>
 
-			</div>
+		{% else %}
+			<tr>
+				<td colspan="22">no folder found</td>
+			</tr>
+		{% endfor %}
 
-		</div>
+	</tbody>
+</table>{% endif %}</div>

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Annuary{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Edit Annuary{% endtrans %}<h1>
+
+    {{ include('annuary/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('annuary_index') }}">back to list</a>
+
+    {{ include('annuary/_delete_form.html.twig') }}
+{% endblock %}

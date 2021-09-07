@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact index{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Contact index{% endtrans %}<h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}PhoneNumberOne{% endtrans %}</th>
+                <th>{% trans %}PhoneNumberTwo{% endtrans %}</th>
+                <th>{% trans %}PhoneNumberThree{% endtrans %}</th>
+                <th>{% trans %}Email{% endtrans %}</th>
+                <th>{% trans %}Address{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td>{{ contact.id }}</td>
+                <td>{{ contact.name }}</td>
+                <td>{{ contact.phoneNumberOne }}</td>
+                <td>{{ contact.phoneNumberTwo }}</td>
+                <td>{{ contact.phoneNumberThree }}</td>
+                <td>{{ contact.Email }}</td>
+                <td>{{ contact.address }}</td>
+                <td>
+                    <a href="{{ path('contact_show', {'id': contact.id}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('contact_edit', {'id': contact.id}) }}">{% trans %}edit{% endtrans %}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">{% trans %}no records found{% endtrans %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('contact_new') }}">{% trans %}Create new{% endtrans %}</a>
+{% endblock %}

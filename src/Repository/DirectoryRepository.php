@@ -4,8 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Company;
 use App\Entity\Directory;
+use App\Form\CompanyDivisionType2;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\CompanyDivision;
 
 /**
  * @method Directory|null find($id, $lockMode = null, $lockVersion = null)
@@ -64,7 +66,7 @@ class DirectoryRepository extends ServiceEntityRepository
     }
 
 
-    
+
     public function findByCompanyDivisionWithNoParent($value)
     {
         return $this->createQueryBuilder('d')
@@ -77,7 +79,23 @@ class DirectoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    
+
+
+
+
+
+    public function findBySpecialAccess($value)
+    {
+        return $this->createQueryBuilder('d')
+            ->join('d.specialAccess', 'u')
+            ->andWhere('u.id = :val')
+            ->setParameter('val', $value)
+            ->orderBy('d.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findByParent($value)
     {
         return $this->createQueryBuilder('d')
@@ -87,6 +105,27 @@ class DirectoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+
+    public function findByKeyword(String $keyword,CompanyDivision $companyDivision)
+    {
+
+        $title = str_replace(' ', '%', $keyword);
+
+        return $this->createQueryBuilder('d')
+            ->join('d.author', 'a')
+            ->join('d.parent', 'p')
+            ->Where('d.name LIKE :nom or p.name LIKE :nom or 
+             a.name LIKE :nom or a.username LIKE :nom')
+          //  ->andWhere('cd = :val')
+            ->setParameter('nom', '%'.strtolower($title).'%')
+        //    ->setParameter('val', $companyDivision)
+            ->orderBy('d.id', 'ASC')
+            ->getQuery()
+            ->execute();
+    }
+
 
 
     public function findByCompanyWithNoParent(Company $company)

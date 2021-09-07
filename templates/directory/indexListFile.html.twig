@@ -4,23 +4,23 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Directory index</h1>
+	<h1>{% trans %}Directory index{% endtrans %}<h1>
 
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>UpdateAt</th>
-				<th>Description</th>
-				<th>Size</th>
-				<th>Type</th>
-				<th>Extension</th>
-				<th>permissions</th>
-				<th>Path</th>
-				<th>IsFIle</th>
-				<th>FileType</th>
-				<th>actions</th>
+				<th>{% trans %}Id{% endtrans %}</th>
+				<th>{% trans %}Name{% endtrans %}</th>
+				<th>{% trans %}UpdateAt{% endtrans %}</th>
+				<th>{% trans %}Description{% endtrans %}</th>
+				<th>{% trans %}Size{% endtrans %}</th>
+				<th>{% trans %}Type{% endtrans %}</th>
+				<th>{% trans %}Extension{% endtrans %}</th>
+				<th>{% trans %}permissions{% endtrans %}</th>
+				<th>{% trans %}Path{% endtrans %}</th>
+				<th>{% trans %}IsFIle{% endtrans %}</th>
+				<th>{% trans %}FileType{% endtrans %}</th>
+				<th>{% trans %}actions{% endtrans %}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,24 +44,43 @@
 						{% endfor %}
 					</td>
 					<td>{{ directory.path }}</td>
-					<td>{{ directory.isFIle ? 'Yes' : 'No' }}</td>
+					<td>
+								<div class="dropdown w3-round-large">
+									<button class="w3-btn w3-round-large dropdown-toggle icon icon-arrow-down" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+										Child
+										<span class="fa fa-angle-down"></span>
+									</button>
+
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+										{% for child in directory.children %}
+
+
+											<li>
+												 href="{{ path('index_list_file',{'id': child.id}) }}" >
+												{{ child.name }}
+												
+												
+												 </a>
+
+											</li>
+
+										{% endfor %}
+
+									</ul>
+								</div>
+</td>
 					<td>{{ directory.fileType }}</td>
 					<td>
-						<a href="{{ path('directory_show', {'id': directory.id}) }}">show</a>
-						<a href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
+						<a href="{{ path('index_list_file', {'id': directory.id}) }}">{% trans %}show{% endtrans %}</a>
+						<a href="{{ path('directory_edit', {'id': directory.id}) }}">{% trans %}edit{% endtrans %}</a>
 					</td>
 				</tr>
 			{% else %}
 				<tr>
-					<td colspan="12">no records found</td>
+					<td colspan="12">no Folder found</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
-	<div class="w3-container">
-		<a class="w3-third w3-btn w3-teal fa fa-pencil w3-padding-large" href="{{ path('directory_child_new',{'id': parent.id}) }}"> Create new</a>
-        <a class="w3-third w3-btn" href="{{ path('directory_child_new',{'id': parent.id}) }}"></a>
-        <a class="w3-third w3-btn fa fa-upload w3-dark-grey w3-padding-large" href="{{ path('file_upload',{'id': parent.id}) }}"> upload File</a>
-
-	</div>
+	{% include "directory/upload.html.twig" %}
 {% endblock %}

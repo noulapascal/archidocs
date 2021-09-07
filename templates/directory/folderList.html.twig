@@ -3,19 +3,19 @@
 {% block title %}Directory index{% endblock %}
 
 {% block body %}
-    <h1>Directory index</h1>
+   {% include "directory/index.nav.twig" %}
 
     <table class="table">
         <thead>
             <tr>
                        <thead>
             <tr>
-                <th>Name</th>
-                <th>UpdateAt</th>
-                <th>Description</th>
-                <th>Division</th>
-                <th>Path</th>
-                <th>actions</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}UpdateAt{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}Division{% endtrans %}</th>
+                <th>{% trans %}Path{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
             </tr>
         </thead>
                
@@ -33,8 +33,8 @@
                 {% endfor %}  </td>
                 <td>{{ directory.path }}</td>
                 <td>
-                    <a href="{{ path('directory_show', {'id': directory.id}) }}">show</a>
-                    <a href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
+                    <a href="{{ path('directory_show', {'id': directory.id}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('directory_edit', {'id': directory.id}) }}">{% trans %}edit{% endtrans %}</a>
                 </td>
             </tr>
             
@@ -55,7 +55,7 @@
                 {% endfor %}  </td>
                 <td>{{ parent.path }}/{{ file.name }}</td>
                 <td>
-                    <a class='w3-btn w3-text-green fa fa-eye' href="{{ asset(parent.path ~'/' ~ file.name)  }}">show</a>
+                    <a class='w3-btn w3-text-green fa fa-eye' href="{{ asset(parent.path ~'/' ~ file.name)  }}">{% trans %}show{% endtrans %}</a>
                   <a class='w3-btn w3-text-green fa fa-download' href="{{ asset(parent.path ~'/' ~ file.name)  }}" download="download">Download</a>
                 </td>
             </tr>
@@ -68,5 +68,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('directory_new') }}">Create new</a>
+    <a href="{{ path('directory_new') }}">{% trans %}Create new{% endtrans %}</a>
 {% endblock %}

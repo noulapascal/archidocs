@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
- * @Route("/company")
+ * @Route(
+ *     "/{_locale}/company",
+ *     requirements={
+ *         "_locale": "en|fr|de",
+ *     }
+ * )
+ * @IsGranted("IS_AUTHENTICATED_FULLY") 
  */
 class CompanyController extends AbstractController
 {
@@ -42,9 +49,14 @@ class CompanyController extends AbstractController
             $entityManager->persist($company);
             $entityManager->flush();
 
-            if (!empty($form['file'])) {
-                $files = $form['file']->getData();
-                $this->upload($directory, $files);
+            if (!empty($form['banner'])) {
+                $files = $form['banner']->getData();
+                $this->upload($company, $files,'banner');
+            }
+
+            if (!empty($form['logo'])) {
+                $files = $form['logo']->getData();
+                $this->upload($company, $files,'banner');
             }
 
 
@@ -57,6 +69,52 @@ class CompanyController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
+
+   
+
+    
+    /**
+     * @Route("/this_new", name="this_company_new", methods={"GET","POST"})
+     */
+    public function thisNew(Request $request): Response
+    {
+        $company = new Company();
+        $form = $this->createForm(CompanyType::class, $company);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($company);
+            $entityManager->flush();
+
+            if (!empty($form['banner'])) {
+                $files = $form['banner']->getData();
+                $this->upload($company, $files,'banner');
+            }
+
+            if (!empty($form['logo'])) {
+                $files = $form['logo']->getData();
+                $this->upload($company, $files,'banner');
+            }
+
+
+            $this->dirMaker($company);
+            return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('company/new.html.twig', [
+            'company' => $company,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+   
+    
+
 
     /**
      * @Route("/{id<\d+>}", name="company_show", methods={"GET"})
@@ -78,6 +136,7 @@ class CompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->dirRenamer($code, $form['code']->getdata());
 
             try {
                 $this->dirRenamer($code, $form['code']->getdata());
@@ -87,8 +146,8 @@ class CompanyController extends AbstractController
             }
             $logo = $form['logo']->getData();
             $banner = $form['banner']->getData();
-            $this->upload($company, $logo);
-            $this->upload($company, $banner);
+            $this->upload($company, $logo,'logo');
+            $this->upload($company, $banner,'banner');
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -131,11 +190,22 @@ class CompanyController extends AbstractController
 
 
 
-    public function upload(Company $company, $file)
+    public function upload(Company $company, $file,$type)
     {
-        $path = './logo_and_banner/' . $company->getCode();
-        $name = $company->getCode() . '.' . $file->guessExtension();
-        $file->move($path, $name);
+        $path = './logo_and_banner/';
+        if(!empty($file))
+        {
+            $name = $type.'_'.$company->getCode() . '.' . $file->guessExtension();
+            $file->move($path, $name);
+            $method = 'set'.ucfirst($type);
+            $company -> $method($name);
+    
+    
+
+        }
+       $em =  $this->getDoctrine()->getManager();
+       $em->persist($company);
+       $em->flush();
     }
 
 
@@ -154,10 +224,10 @@ class CompanyController extends AbstractController
     
     
     
-    public function dirRenamer(string $company, $newDirName)
+    public function dirRenamer(string $code, $newDirName)
     {
-        if (is_dir('./' . $_ENV['DATA_DIR'] . $company)) {
-            rename('./' . $_ENV['DATA_DIR'] . $company, './' . $_ENV['DATA_DIR'] . $newDirName);
+        if (is_dir('./' . $_ENV['DATA_DIR'] . $code)) {
+            rename('./' . $_ENV['DATA_DIR'] . $code, './' . $_ENV['DATA_DIR'] . $newDirName);
         } else {
             echo "ce dossier n'existe déja plus";
             //   mkdir('./' . $_ENV['DATA_DIR'] . $company->getCode());

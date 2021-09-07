@@ -3,17 +3,17 @@
 {% block title %}Locality index{% endblock %}
 
 {% block body %}
-    <h1>Locality index</h1>
+    <h1>{% trans %}Locality index{% endtrans %}<h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>CreateAt</th>
-                <th>UpdateAt</th>
-                <th>actions</th>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}CreateAt{% endtrans %}</th>
+                <th>{% trans %}UpdateAt{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -25,17 +25,17 @@
                 <td>{{ locality.createAt ? locality.createAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ locality.updateAt ? locality.updateAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('locality_show', {'id': locality.id}) }}">show</a>
-                    <a href="{{ path('locality_edit', {'id': locality.id}) }}">edit</a>
+                    <a href="{{ path('locality_show', {'id': locality.id}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('locality_edit', {'id': locality.id}) }}">{% trans %}edit{% endtrans %}</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">{% trans %}no records found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('locality_new') }}">Create new</a>
+    <a href="{{ path('locality_new') }}">{% trans %}Create new{% endtrans %}</a>
 {% endblock %}

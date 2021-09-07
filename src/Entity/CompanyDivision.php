@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\Directory;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CompanyDivisionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Directory;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *     fields={"name", "company"},
+ *     errorPath="port",
+ *     message="This port is already in use on that host."
+ * )
  * @ORM\Entity(repositoryClass=CompanyDivisionRepository::class)
  */
 class CompanyDivision
@@ -19,10 +26,11 @@ class CompanyDivision
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
      * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="companyDivisions")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $company;
 
@@ -41,10 +49,16 @@ class CompanyDivision
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Annuary::class, mappedBy="division")
+     */
+    private $annuaries;
+
     public function __construct()
     {
         $this->folders = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->annuaries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +150,36 @@ class CompanyDivision
     public function __toString()
     {
     return $this->getName();
+    }
+
+    /**
+     * @return Collection|Annuary[]
+     */
+    public function getAnnuaries(): Collection
+    {
+        return $this->annuaries;
+    }
+
+    public function addAnnuary(Annuary $annuary): self
+    {
+        if (!$this->annuaries->contains($annuary)) {
+            $this->annuaries[] = $annuary;
+            $annuary->setDivision($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnuary(Annuary $annuary): self
+    {
+        if ($this->annuaries->removeElement($annuary)) {
+            // set the owning side to null (unless already changed)
+            if ($annuary->getDivision() === $this) {
+                $annuary->setDivision(null);
+            }
+        }
+
+        return $this;
     }    
 
 }

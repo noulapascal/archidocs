@@ -36,6 +36,43 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+
+
+    
+    public function findByCompany($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.division','d')
+            ->join('d.company','c')
+            ->andWhere('c = :val')
+            ->orderBy('u.username', 'ASC')
+
+            ->setParameter('val', $value)
+            
+            
+            ;
+    }
+
+
+
+        
+    public function findByCompanyForController($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.division','d')
+            ->join('d.company','c')
+            ->andWhere('c = :val')
+            ->orderBy('u.username', 'ASC')
+
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+
+            
+            ;
+    }
+
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

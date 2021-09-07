@@ -3,52 +3,52 @@
 {% block title %}Directory{% endblock %}
 
 {% block body %}
-    <h1>Directory</h1>
+    <h1>{% trans %}Directory{% endtrans %}<h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>{% trans %}Id{% endtrans %}</th>
                 <td>{{ directory.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>{% trans %}Name{% endtrans %}</th>
                 <td>{{ directory.name }}</td>
             </tr>
             <tr>
-                <th>UpdateAt</th>
+                <th>{% trans %}UpdateAt{% endtrans %}</th>
                 <td>{{ directory.updateAt ? directory.updateAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Description</th>
+                <th>{% trans %}Description{% endtrans %}</th>
                 <td>{{ directory.description }}</td>
             </tr>
             <tr>
-                <th>Size</th>
+                <th>{% trans %}Size{% endtrans %}</th>
                 <td>{{ directory.size }}</td>
             </tr>
             <tr>
-                <th>Type</th>
+                <th>{% trans %}Type{% endtrans %}</th>
                 <td>{{ directory.type }}</td>
             </tr>
             <tr>
-                <th>Extension</th>
+                <th>{% trans %}Extension{% endtrans %}</th>
                 <td>{{ directory.extension }}</td>
             </tr>
             <tr>
-                <th>Permissions</th>
+                <th>{% trans %}Permissions{% endtrans %}</th>
                 <td>{{ directory.permissions }}</td>
             </tr>
             <tr>
-                <th>Path</th>
+                <th>{% trans %}Path{% endtrans %}</th>
                 <td>{{ directory.path }}</td>
             </tr>
             <tr>
-                <th>IsFIle</th>
+                <th>{% trans %}IsFIle{% endtrans %}</th>
                 <td>{{ directory.isFIle ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>FileType</th>
+                <th>{% trans %}FileType{% endtrans %}</th>
                 <td>{{ directory.fileType }}</td>
             </tr>
         </tbody>
@@ -56,7 +56,7 @@
 
     <a href="{{ path('directory_index') }}">back to list</a>
 
-    <a href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
+    <a href="{{ path('directory_edit', {'id': directory.id}) }}">{% trans %}edit{% endtrans %}</a>
 
     {{ include('directory/_delete_form.html.twig') }}
 {% endblock %}

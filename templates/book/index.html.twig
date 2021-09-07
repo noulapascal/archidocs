@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Book index {% endtrans %} {% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Book index{% endtrans %}<h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <th>{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}Author{% endtrans %}</th>
+                <th>{% trans %}AddedAt{% endtrans %}</th>
+                <th>{% trans %}UpdateAt{% endtrans %}</th>
+                <th>{% trans %}Reference{% endtrans %}</th>
+                <th>{% trans %}Available{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.addedAt ? book.addedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ book.updateAt ? book.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ book.reference }}</td>
+                <td>{{ book.available ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('book_show', {'id': book.id}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('book_edit', {'id': book.id}) }}">{% trans %}edit{% endtrans %}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">{% trans %}no records found{% endtrans %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('book_new') }}">{% trans %}Create new{% endtrans %}</a>
+{% endblock %}

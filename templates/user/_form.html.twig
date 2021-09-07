@@ -1,4 +1,12 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {#{ form_widget(form) }#}
+
+    <div class="w3-row">
+	{% for item in form %}
+		<div class="w3-half w3-padding w3-hover-teal" id="{{item.vars.name}}">
+			{{ form_row(item) }}
+		</div>
+	{% endfor %}
+</div>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

@@ -56,10 +56,16 @@ class City
      */
     private $createAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Contact::class, mappedBy="city")
+     */
+    private $contacts;
+
     public function __construct()
     {
         $this->subdivisions = new ArrayCollection();
         $this->companies = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +225,36 @@ class City
 
     {
         $this->updateAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection|Contact[]
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+            $contact->setCity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getCity() === $this) {
+                $contact->setCity(null);
+            }
+        }
+
+        return $this;
     }
 
 }

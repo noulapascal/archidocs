@@ -82,10 +82,20 @@ class Directory
       */
      private $createAt;
 
+
+
+     
+      /**
+      * @ORM\OneToMany(targetEntity=File::class, mappedBy="parentFolder")
+      */
+      
+      private $childrenFiles;
      /**
       * @ORM\ManyToOne(targetEntity=Directory::class, inversedBy="children")
       */
-     private $parent;
+      private $parent;     
+      
+
 
      /**
       * @ORM\OneToMany(targetEntity=Directory::class, mappedBy="parent")
@@ -97,10 +107,22 @@ class Directory
       */
      private $level;
 
+     /**
+      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="directories")
+      */
+     private $author;
+
+     /**
+      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="directoriesAccess")
+      */
+     private $specialAccess;
+
      public function __construct()
      {
          $this->companyDivision = new ArrayCollection();
          $this->children = new ArrayCollection();
+         $this->specialAccess = new ArrayCollection();
+         $this->childrenFiles = new ArrayCollection();
      }
     public function getId(): ?int
     {
@@ -350,6 +372,84 @@ class Directory
     public function setLevel(int $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getSpecialAccess(): Collection
+    {
+        return $this->specialAccess;
+    }
+
+    public function addSpecialAccess(User $specialAccess): self
+    {
+        if (!$this->specialAccess->contains($specialAccess)) {
+            $this->specialAccess[] = $specialAccess;
+        }
+
+        return $this;
+    }
+
+    public function removeSpecialAccess(User $specialAccess): self
+    {
+        $this->specialAccess->removeElement($specialAccess);
+
+        return $this;
+    }
+
+    public function getParentFolder(): ?self
+    {
+        return $this->parentFolder;
+    }
+
+    public function setParentFolder(?self $parentFolder): self
+    {
+        $this->parentFolder = $parentFolder;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Directory[]
+     */
+    public function getChildrenFiles(): Collection
+    {
+        return $this->childrenFiles;
+    }
+
+    public function addChildrenFile(Directory $childrenFile): self
+    {
+        if (!$this->childrenFiles->contains($childrenFile)) {
+            $this->childrenFiles[] = $childrenFile;
+            $childrenFile->setParentFolder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChildrenFile(Directory $childrenFile): self
+    {
+        if ($this->childrenFiles->removeElement($childrenFile)) {
+            // set the owning side to null (unless already changed)
+            if ($childrenFile->getParentFolder() === $this) {
+                $childrenFile->setParentFolder(null);
+            }
+        }
 
         return $this;
     }

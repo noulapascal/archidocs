@@ -23,11 +23,30 @@ class CompanyDivisionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->join('c.company','e')
-            ->andWhere('e.id = :val')
+            ->andWhere('e = :val')
+            ->orderBy('c.name', 'ASC')
             ->setParameter('val', $value)
-;
+ 
+
+            
+            ;
     }
 
+
+    
+    public function findByCompanyForController($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.company','e')
+            ->andWhere('e = :val')
+            ->orderBy('c.name', 'ASC')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+
+            
+            ;
+    }
     // /**
     //  * @return CompanyDivision[] Returns an array of CompanyDivision objects
     //  */

@@ -5,13 +5,21 @@ namespace App\Controller;
 use App\Entity\Region;
 use App\Form\RegionType;
 use App\Repository\RegionRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 /**
- * @Route("/region")
+ * @Route(
+ *     "/{_locale}/region",
+ *     requirements={
+ *         "_locale": "en|fr|de",
+ *     }
+ * ) 
+ * @IsGranted("IS_AUTHENTICATED_FULLY") 
  */
 class RegionController extends AbstractController
 {

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}File index{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}File index{% endtrans %}<h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans %}By{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}UpdateAt{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}Size{% endtrans %}</th>
+                <th>{% trans %}Type{% endtrans %}</th>
+                <th>{% trans %}Extension{% endtrans %}</th>
+                <th>{% trans %}FileType{% endtrans %}</th>
+                <th>{% trans %}CreateAt{% endtrans %}</th>
+                <th>{% trans %}Level{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for file in files %}
+            <tr>
+                <td>{{ file.author }}</td>
+                <td>{{ file.name }}</td>
+                <td>{{ file.updateAt ? file.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ file.description }}</td>
+                <td>{{ file.size }}</td>
+                <td>
+                <a href="{{ asset(file.parentFolder ?  'data/' ~ file.parentFolder.companyDivision.0.company ~ "/" ~ file.parentFolder.path ~ "/" ~ file.name : path("file_index") ) }}">
+                {{  file.name  }}
+                </a></td>
+                <td>{{ file.extension }}</td>
+                <td>{{ file.fileType }}</td>
+                <td>{{ file.createAt ? file.createAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{   file.parentFolder ? file.parentFolder.path : "" }}</td>
+                <td>
+                <a class="fa fa-eye" href="{{ asset(file.parentFolder ?  'data/' ~ file.parentFolder.companyDivision.0.company ~ "/" ~ file.parentFolder.path ~ "/" ~ file.name : path("file_index") ) }}">
+                show
+                </a>
+                    <a href="{{ path('file_edit', {'id': file.id}) }}">{% trans %}edit{% endtrans %}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">{% trans %}no records found{% endtrans %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('file_new') }}">{% trans %}Create new{% endtrans %}</a>
+{% endblock %}

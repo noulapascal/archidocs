@@ -3,7 +3,7 @@
 {% block title %}Edit Country{% endblock %}
 
 {% block body %}
-    <h1>Edit Country</h1>
+    <h1>{% trans %}Edit Country{% endtrans %}<h1>
 
     {{ include('country/_form.html.twig', {'button_label': 'Update'}) }}
 

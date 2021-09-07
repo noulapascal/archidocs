@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -71,6 +73,53 @@ class User implements UserInterface
      * @ORM\Column(type="datetime_immutable")
      */
     private $updateAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Directory::class, mappedBy="author")
+     */
+    private $directories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Directory::class, mappedBy="specialAccess")
+     */
+    private $directoriesAccess;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phoneNumber;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateOfBirth;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $profilePicture;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $locale;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="takenBy")
+     */
+    private $books;
+
+    public function __construct()
+    {
+        $this->directories = new ArrayCollection();
+        $this->directoriesAccess = new ArrayCollection();
+        $this->books = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -257,6 +306,158 @@ class User implements UserInterface
     public function setDivision(?CompanyDivision $division): self
     {
         $this->division = $division;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * @return Collection|Directory[]
+     */
+    public function getDirectories(): Collection
+    {
+        return $this->directories;
+    }
+
+    public function addDirectory(Directory $directory): self
+    {
+        if (!$this->directories->contains($directory)) {
+            $this->directories[] = $directory;
+            $directory->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDirectory(Directory $directory): self
+    {
+        if ($this->directories->removeElement($directory)) {
+            // set the owning side to null (unless already changed)
+            if ($directory->getAuthor() === $this) {
+                $directory->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Directory[]
+     */
+    public function getDirectoriesAccess(): Collection
+    {
+        return $this->directoriesAccess;
+    }
+
+    public function addDirectoriesAccess(Directory $directoriesAccess): self
+    {
+        if (!$this->directoriesAccess->contains($directoriesAccess)) {
+            $this->directoriesAccess[] = $directoriesAccess;
+            $directoriesAccess->addSpecialAccess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDirectoriesAccess(Directory $directoriesAccess): self
+    {
+        if ($this->directoriesAccess->removeElement($directoriesAccess)) {
+            $directoriesAccess->removeSpecialAccess($this);
+        }
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): ?\DateTimeInterface
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
+    {
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?string $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Book[]
+     */
+    public function getBooks(): Collection
+    {
+        return $this->books;
+    }
+
+    public function addBook(Book $book): self
+    {
+        if (!$this->books->contains($book)) {
+            $this->books[] = $book;
+            $book->setTakenBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Book $book): self
+    {
+        if ($this->books->removeElement($book)) {
+            // set the owning side to null (unless already changed)
+            if ($book->getTakenBy() === $this) {
+                $book->setTakenBy(null);
+            }
+        }
 
         return $this;
     }

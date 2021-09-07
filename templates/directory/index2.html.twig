@@ -3,23 +3,23 @@
 {% block title %}Directory index{% endblock %}
 
 {% block body %}
-    <h1>Directory index</h1>
+    <h1>{% trans %}Directory index{% endtrans %}<h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>UpdateAt</th>
-                <th>Description</th>
-                <th>Size</th>
-                <th>Type</th>
-                <th>Extension</th>
-                <th>permissions</th>
-                <th>Path</th>
-                <th>IsFIle</th>
-                <th>FileType</th>
-                <th>actions</th>
+                <th>{% trans %}Id{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}UpdateAt{% endtrans %}</th>
+                <th>{% trans %}Description{% endtrans %}</th>
+                <th>{% trans %}Size{% endtrans %}</th>
+                <th>{% trans %}Type{% endtrans %}</th>
+                <th>{% trans %}Extension{% endtrans %}</th>
+                <th>{% trans %}permissions{% endtrans %}</th>
+                <th>{% trans %}Path{% endtrans %}</th>
+                <th>{% trans %}IsFIle{% endtrans %}</th>
+                <th>{% trans %}FileType{% endtrans %}</th>
+                <th>{% trans %}actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -44,19 +44,19 @@
                 <td>{{ directory.isFIle ? 'Yes' : 'No' }}</td>
                 <td>{{ directory.fileType }}</td>
                 <td>
-                    <a href="{{ path('directory_show', {'id': directory.id}) }}">show</a>
-                    <a href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
+                    <a href="{{ path('directory_show', {'id': directory.id}) }}">{% trans %}show{% endtrans %}</a>
+                    <a href="{{ path('directory_edit', {'id': directory.id}) }}">{% trans %}edit{% endtrans %}</a>
                 </td>
             </tr>
             
         {% endfor %}
         {% else %}
             <tr>
-                <td colspan="12">no records found</td>
+                <td colspan="12">{% trans %}no records found{% endtrans %}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('directory_child_new',{'id': parent.id}) }}">Create new</a>
+    <a href="{{ path('directory_child_new',{'id': parent.id}) }}">{% trans %}Create new{% endtrans %}</a>
 {% endblock %}

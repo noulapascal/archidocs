@@ -6,7 +6,7 @@
 {% block body %}
 
 	<style></style>
-	<h1>Directory index</h1>
+	<h1>{% trans %}Directory index{% endtrans %}<h1>
 
 
 	<nav>
@@ -21,14 +21,14 @@
 			<table id="example" class="w3-table display" style="width:100%">
 				<thead>
 					<tr>
-						<th></th>
-						<th>Name</th>
-						<th>UpdateAt</th>
-						<th>Description</th>
-						<th>Division</th>
-						<th>name</th>
-						<th>Path</th>
-						<th>actions</th>
+						<th>{% trans %}{% endtrans %}</th>
+						<th>{% trans %}Name{% endtrans %}</th>
+						<th>{% trans %}UpdateAt{% endtrans %}</th>
+						<th>{% trans %}Description{% endtrans %}</th>
+						<th>{% trans %}Division{% endtrans %}</th>
+						<th>{% trans %}name{% endtrans %}</th>
+						<th>{% trans %}Path{% endtrans %}</th>
+						<th>{% trans %}actions{% endtrans %}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -72,8 +72,8 @@
 							<td>{{ directory.path }}</td>
 
 							<td>
-								<a class="w3-button w3-hover-blue fa fa-eye w3-padding-large" href="{{ path('directory_show', {'id': directory.id}) }}">show</a>
-								<a class="w3-button w3-hover-teal w3-border-green w3-white w3-padding-large fa fa-pencil w3-margin-large" href="{{ path('directory_edit', {'id': directory.id}) }}">edit</a>
+								<a class="w3-button w3-hover-blue fa fa-eye w3-padding-large" href="{{ path('directory_show', {'id': directory.id}) }}">{% trans %}show{% endtrans %}</a>
+								<a class="w3-button w3-hover-teal w3-border-green w3-white w3-padding-large fa fa-pencil w3-margin-large" href="{{ path('directory_edit', {'id': directory.id}) }}">{% trans %}edit{% endtrans %}</a>
 							</td>
 						</tr>
 					</td>
@@ -81,19 +81,19 @@
 			</tr>
 		{% else %}
 			<tr>
-				<td colspan="22">no records found</td>
+				<td colspan="22">{% trans %}no records found{% endtrans %}</td>
 			</tr>
 		{% endfor %}
 	</tbody>
 </table>
-<a href="{{ path('directory_new') }}">Create new</a></div><div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+<a href="{{ path('directory_new') }}">{% trans %}Create new{% endtrans %}</a></div><div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 <div class="w3-container">
 	{% for directory in directories %}
 
 	{% include "directory/folder_display.html.twig" %} 
 	{% else %}
 		<div>
-			<td colspan="22">no records found</td>
+			<td colspan="22">{% trans %}no records found{% endtrans %}</td>
 		</div>
 
 	{% endfor %}
